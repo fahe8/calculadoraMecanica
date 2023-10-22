@@ -1,3 +1,4 @@
+import 'package:calculator/controllers/CalculationsController.dart';
 import 'package:calculator/screens/SplashScreen.dart';
 import 'package:calculator/screens/bombasScreens/BombasScreen.dart';
 import 'package:calculator/screens/hidraulicaScreens/Accesorios.dart';
@@ -9,8 +10,10 @@ import 'package:calculator/screens/hidraulicaScreens/LongitudTuberia.dart';
 import 'package:calculator/screens/hidraulicaScreens/NumeroReynolds.dart';
 import 'package:calculator/screens/hidraulicaScreens/Velocidad.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
+  Get.put(CalculationsController());
   runApp(const MyApp());
 }
 
@@ -28,9 +31,12 @@ class MyApp extends StatelessWidget {
         '/hidraulica/calculoshidraulicos': (context) =>
             CalculosHidraulicosScreen(),
         '/hidraulica/calculoshidraulicos/velocidad': (context) => Velocidad(),
-        '/hidraulica/calculoshidraulicos/reynolds': (context) => NumeroReynolds(),
-        '/hidraulica/calculoshidraulicos/factorfriccion': (context) => FactorFriccion(),
-        '/hidraulica/calculoshidraulicos/longitudtuberia': (context) => LongitudTuberia(),
+        '/hidraulica/calculoshidraulicos/reynolds': (context) =>
+            NumeroReynolds(),
+        '/hidraulica/calculoshidraulicos/factorfriccion': (context) =>
+            FactorFriccion(),
+        '/hidraulica/calculoshidraulicos/longitudtuberia': (context) =>
+            LongitudTuberia(),
         '/hidraulica/calculoshidraulicos/accesorios': (context) => Accesorios(),
         '/bombas': (context) => BombasScreen(),
         // '/interpolador': (context) => InterpoladorScreen(),

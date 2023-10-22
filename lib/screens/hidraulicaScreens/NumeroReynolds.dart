@@ -1,7 +1,9 @@
+import 'package:calculator/controllers/CalculationsController.dart';
 import 'package:calculator/widgets/CustomInput.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NumeroReynolds extends StatefulWidget {
   const NumeroReynolds({Key? key}) : super(key: key);
@@ -13,6 +15,11 @@ class NumeroReynolds extends StatefulWidget {
 class _NumeroReynoldsState extends State<NumeroReynolds> {
   //Controladores de formulario
   TextEditingController _controller = TextEditingController();
+
+  // Obtén la instancia de CalculationsController
+  final CalculationsController calculationsController =
+      Get.find<CalculationsController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +81,28 @@ class _NumeroReynoldsState extends State<NumeroReynolds> {
                     SizedBox(
                       height: 10,
                     ),
+                    Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomRectangle(
+                      width: 80,
+                      height: 30,
+                      color: Colors.green,
+                      text: 'Resultado',
+                      size: 15,
+                    ),
+                    CustomRectangle(
+                      width: 180,
+                      height: 30,
+                      color: Colors.grey.shade300,
+                      text: calculationsController.velocidad.toString(),
+                      size: 15,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

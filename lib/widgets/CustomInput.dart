@@ -47,8 +47,8 @@ class CustomInput extends StatelessWidget {
               ),
               child: TextField(
                 controller: controller,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,1}')),],
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hintText,

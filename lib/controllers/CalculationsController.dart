@@ -18,35 +18,29 @@ void calcularVelocidad() {
   final caudalActual = caudal.value;
   final diametroActual = diametro.value;
   final area = pow(diametroActual / 2, 2) * pi;
+
   final velocidadCalculada = caudalActual / area;
-  velocidad.value = velocidadCalculada;
+  
+  // Limitar el resultado a 4 decimales
+  final velocidadFormateada = velocidadCalculada.toStringAsFixed(4);
+
+  velocidad.value = double.parse(velocidadFormateada);
 }
 
-void calcularNumeroReynolds() {
-  final velocidadActual = velocidad.value;
-  final diametroActual = diametro.value;
-  final densidadFluido = 1000.0; // Densidad del agua en kg/m³ (reemplaza con el valor correcto)
-  final viscosidadCinematicaActual = viscosidadCinematica.value ; // Viscosidad cinemática del agua en m²/s (reemplaza con el valor correcto)
-  final reynoldsCalculado = (densidadFluido * velocidadActual * diametroActual) / viscosidadCinematicaActual;
-  numeroReynolds.value = reynoldsCalculado;
-}
 
-  // void calcularNumeroReynolds() {
-  //   // Obtener los valores actuales de velocidad, diámetro y viscosidad cinemática
-  //   final velocidadActual = velocidad.value;
-  //   final diametroActual = diametro.value;
-  //   final viscosidadCinematicaActual = viscosidadCinematica.value;
+  void calcularNumeroReynolds() {
+    final velocidadActual = velocidad.value;
+    final diametroActual = diametro.value;
+    final densidadFluido =
+        1000.0; // Densidad del agua en kg/m³ (reemplaza con el valor correcto)
+    final viscosidadCinematicaActual = viscosidadCinematica
+        .value; // Viscosidad cinemática del agua en m²/s (reemplaza con el valor correcto)
+    final reynoldsCalculado =
+        (densidadFluido * velocidadActual * diametroActual) /
+            viscosidadCinematicaActual;
+    numeroReynolds.value = reynoldsCalculado;
+  }
 
-  //   // Calcular el número de Reynolds
-  //   final densidadFluido =
-  //       1.0; // Densidad del fluido (reemplaza con el valor correcto)
-  //   final reynoldsCalculado =
-  //       (densidadFluido * velocidadActual * diametroActual) /
-  //           viscosidadCinematicaActual;
-
-  //   // Actualizar el valor del número de Reynolds en el controlador
-  //   numeroReynolds.value = reynoldsCalculado;
-  // }
 
   void calcularFactorFriccion() {}
 
@@ -63,5 +57,3 @@ void calcularNumeroReynolds() {
     // Actualizar otros valores según sea necesario
   }
 }
-
-
