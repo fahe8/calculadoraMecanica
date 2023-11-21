@@ -17,9 +17,6 @@ class Bomba {
       this.valorC,
       this.color});
 
-  double calcularAltura() {
-    return valorA + valorB * pow(caudal, 2);
-  }
 }
 
 class CalculationsController extends GetxController {
@@ -144,14 +141,18 @@ class CalculationsController extends GetxController {
   //Bombas
   RxList<Bomba> bombas = <Bomba>[].obs;
 
+
   void crearNuevaBomba(double valorA, double valorB, double caudal,
-      {Color? color}) {
+      {Color? color, double? valorC}) {
     if (valorA == 0.0 && valorB == 0.0 && caudal == 0.0) {
       return;
     }
+
+
     bombas.add(Bomba(
         valorA: valorA,
         valorB: valorB,
+        valorC: valorC,
         caudal: caudal,
         color: color ??
             Color.fromRGBO(Random().nextInt(256), Random().nextInt(256),
@@ -186,20 +187,15 @@ class CalculationsController extends GetxController {
 
   Bomba obtenerBomba(int index) {
     if (index >= 0 && index < bombas.length) {
+      print(bombas[index]);
       return bombas[index];
+      
     }
     throw Exception('Índice de bomba fuera de rango');
   }
 
-  double calcularAlturaTotal() {
-    double alturaTotal = 0.0;
-
-    for (var bomba in bombas) {
-      alturaTotal += bomba.calcularAltura();
-    }
-
-    // Agregar cualquier otro cálculo necesario aquí
-
-    return alturaTotal;
+  
+  double calcularCurva(valorA, valorB, caudal) {
+    return valorA + valorB * pow(caudal, 2);
   }
 }

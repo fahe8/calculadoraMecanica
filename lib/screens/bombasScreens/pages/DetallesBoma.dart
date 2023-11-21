@@ -60,56 +60,86 @@ class _DetallesBomaState extends State<DetallesBoma> {
       builder: (BuildContext context) {
         return Center(
           child: AlertDialog(
-            title: Text('Curva Resistente'),
+            title: Text('Modifica los valores'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+              
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de A',
+                    hintText: 'Valor A...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorA,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de B',
+                    hintText: 'Valor B...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorB,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de C',
+                    hintText: 'Valor C...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorC,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de Q',
+                    hintText: 'Valor Q...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorQ,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      modificarBomba();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Modificar'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+void mostrarVentanaModalCurva() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: AlertDialog(
+            title: Text('Resultado de Curva Resistente'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Contenido de la ventana modal
-                // Puedes agregar cualquier otro widget que desees aquí
-                Text('H=A+B⋅Q^2'),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de A',
-                  hintText: 'Valor A...',
-                  size: 15,
-                  controller: _controllerValorA,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de B',
-                  hintText: 'Valor B...',
-                  size: 15,
-                  controller: _controllerValorB,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de C',
-                  hintText: 'Valor C...',
-                  size: 15,
-                  controller: _controllerValorC,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de Q',
-                  hintText: 'Valor Q...',
-                  size: 15,
-                  controller: _controllerValorQ,
-                ),
+            
+                
                 ElevatedButton(
                   onPressed: () {
-                    modificarBomba();
+                 
                     Navigator.pop(context);
                   },
-                  child: Text('Modificar'),
+                  child: Text('Listo'),
                 ),
               ],
             ),
@@ -118,7 +148,6 @@ class _DetallesBomaState extends State<DetallesBoma> {
       },
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +191,7 @@ class _DetallesBomaState extends State<DetallesBoma> {
                     color: Colors.orange,
                     text: 'Curva Resistente',
                     onPressed: () {
-                      mostrarVentanaModalModificarBomba();
+                      mostrarVentanaModalCurva();
                     },
                   ),
                   SizedBox(

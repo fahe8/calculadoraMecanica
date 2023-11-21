@@ -29,11 +29,14 @@ class _BombasOpcionesState extends State<BombasOpciones> {
     // Obtén los valores de los controladores
     double valorA = double.parse(_controllerValorA.text);
     double valorB = double.parse(_controllerValorB.text);
-    double valorC = double.parse(_controllerValorC.text);
+    double? valorC;
     double valorQ = double.parse(_controllerValorQ.text);
 
+// Intenta convertir el valorC, si no se proporciona un valor, será null
+  valorC = double.tryParse(_controllerValorC.text);
+
 // Llama al método crearNuevaBomba en CalculationsController
-    calculationsController.crearNuevaBomba(valorA, valorB, valorQ, color: null);
+    calculationsController.crearNuevaBomba(valorA, valorB, valorQ, color: null, valorC: valorC,);
   }
 
   void mostrarVentanaModalCrearBomba() {
@@ -43,55 +46,61 @@ class _BombasOpcionesState extends State<BombasOpciones> {
         return Center(
           child: AlertDialog(
             title: Text('Valores principales para realizar calculos'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de A',
-                  hintText: 'Valor A...',
-                  size: 15,
-                  controller: _controllerValorA,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de B',
-                  hintText: 'Valor B...',
-                  size: 15,
-                  controller: _controllerValorB,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de C',
-                  hintText: 'Valor C...',
-                  size: 15,
-                  controller: _controllerValorC,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                  color: Colors.blue,
-                  text: 'Valor de Q',
-                  hintText: 'Valor Q...',
-                  size: 15,
-                  controller: _controllerValorQ,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    crearBomba();
-                    Navigator.pop(context);
-                  },
-                  child: Text('Calcular'),
-                ),
-              ],
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('El valorC no es obligatorio'),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de A*',
+                    hintText: 'Valor A...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorA,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de B*',
+                    hintText: 'Valor B...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorB,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de C',
+                    hintText: 'Valor C...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorC,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomInput(
+                    color: Colors.blue,
+                    text: 'Valor de Q*',
+                    hintText: 'Valor Q...',
+                    size: 13,
+                    width: 100,
+                    controller: _controllerValorQ,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      crearBomba();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Crear bomba'),
+                  ),
+                ],
+              ),
             ),
           ),
         );

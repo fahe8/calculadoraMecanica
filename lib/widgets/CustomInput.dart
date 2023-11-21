@@ -8,13 +8,13 @@ class CustomInput extends StatelessWidget {
   final String? hintText;
   final double size;
   final TextEditingController controller;
-
+  final double? width;
   CustomInput({
     required this.color,
     required this.text,
      this.hintText,
     required this.size,
-    required this.controller,
+    required this.controller, this.width = 130,
   });
 
   @override
@@ -28,7 +28,7 @@ class CustomInput extends StatelessWidget {
       child: Row(
         children: [
           CustomRectangle(
-            width: 160,
+            width: width!,
             height: 50,
             color: color,
             text: text,
