@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 class CustomInput extends StatelessWidget {
   final Color color;
   final String text;
-  final String hintText;
+  final String? hintText;
   final double size;
   final TextEditingController controller;
 
   CustomInput({
     required this.color,
     required this.text,
-    required this.hintText,
+     this.hintText,
     required this.size,
     required this.controller,
   });
@@ -28,7 +28,7 @@ class CustomInput extends StatelessWidget {
       child: Row(
         children: [
           CustomRectangle(
-            width: 120,
+            width: 160,
             height: 50,
             color: color,
             text: text,
@@ -48,7 +48,7 @@ class CustomInput extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,1}')),],
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),],
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hintText,

@@ -1,9 +1,29 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:scidart/scidart.dart';
-import 'package:scidart/numdart.dart';
+
+class Bomba {
+  final double valorA;
+  final double valorB;
+  final double caudal;
+  final double? valorC;
+  final Color? color;
+
+  Bomba(
+      {required this.valorA,
+      required this.valorB,
+      required this.caudal,
+      this.valorC,
+      this.color});
+
+  double calcularAltura() {
+    return valorA + valorB * pow(caudal, 2);
+  }
+}
 
 class CalculationsController extends GetxController {
-  // Valores compartidos entre pantallas
+  //Hidraulica
   var diametro = RxDouble(0.0);
   var velocidad = RxDouble(0.0);
   var viscosidadCinematica = RxDouble(0.0);
@@ -12,48 +32,174 @@ class CalculationsController extends GetxController {
   var factorFriccion = RxDouble(0.0);
   var longitud = RxDouble(0.0);
   var caudal = RxDouble(0.0);
+  var coeficienteK = RxDouble(0.0);
+  var perdidasLongitudTuberia = RxDouble(0.0);
+  var perdidasAccesorios = RxDouble(0.0);
 
-  // Métodos para realizar cálculos y actualizar valores
-void calcularVelocidad() {
-  final caudalActual = caudal.value;
-  final diametroActual = diametro.value;
-  final area = pow(diametroActual / 2, 2) * pi;
+  void calcularVelocidad() {
+    final caudalActual = caudal.value;
+    final diametroActual = diametro.value;
 
-  final velocidadCalculada = caudalActual / area;
-  
-  // Limitar el resultado a 4 decimales
-  final velocidadFormateada = velocidadCalculada.toStringAsFixed(4);
+    if (diametroActual == 0) {
+      // Evitar dividir por cero
+      velocidad.value = 0.0;
+      return;
+    }
 
-  velocidad.value = double.parse(velocidadFormateada);
-}
+    // Convertir el caudal a metros cúbicos por segundo
+    // final caudalActualMetrosCubicosPorSegundo =
+    //     caudalActualLitrosPorSegundo / 1000.0;
 
+    final area = pow(diametroActual / 2, 2) * pi;
+    final velocidadCalculada = caudalActual / area;
+
+    // Limitar el resultado a 4 decimales
+    velocidad.value = double.parse(velocidadCalculada.toStringAsFixed(4));
+  }
 
   void calcularNumeroReynolds() {
     final velocidadActual = velocidad.value;
     final diametroActual = diametro.value;
-    final densidadFluido =
-        1000.0; // Densidad del agua en kg/m³ (reemplaza con el valor correcto)
-    final viscosidadCinematicaActual = viscosidadCinematica
-        .value; // Viscosidad cinemática del agua en m²/s (reemplaza con el valor correcto)
+    final viscosidadCinematicaActual = viscosidadCinematica.value;
+
+    if (velocidadActual == 0 ||
+        diametroActual == 0 ||
+        viscosidadCinematicaActual == 0) {
+      // Evitar divisiones por cero
+      numeroReynolds.value = 0.0;
+      return;
+    }
+
+    final densidadFluido = 1000.0;
     final reynoldsCalculado =
         (densidadFluido * velocidadActual * diametroActual) /
             viscosidadCinematicaActual;
-    numeroReynolds.value = reynoldsCalculado;
+    numeroReynolds.value = double.parse(reynoldsCalculado.toStringAsFixed(4));
   }
 
+  void calcularFactorFriccion() {
+    final rugosidadActual = rugosidad.value;
+    final diametroActual = diametro.value;
+    final reynoldsActual = numeroReynolds.value;
 
-  void calcularFactorFriccion() {}
+    if (rugosidadActual == 0 || diametroActual == 0 || reynoldsActual == 0) {
+      // Manejar valores nulos o faltantes
+      factorFriccion.value = 0.0;
+      return;
+    }
 
-  void calcularPerdidasLongitudTuberia() {}
+    // Cálculo del factor de fricción usando la fórmula simplificada proporcionada
+    final epsilonD = rugosidadActual / diametroActual;
+    var factorFriccionCalculado = 0.0;
 
-  void calcularPerdidasAccesorios() {}
+    // Flujo turbulento
+    factorFriccionCalculado =
+        0.25 / pow(log(epsilonD / 3.7 + 5.74 / pow(reynoldsActual, 0.9)), 2);
 
-  // Otros métodos según tus necesidades
+    factorFriccion.value =
+        double.parse(factorFriccionCalculado.toStringAsFixed(4));
+  }
 
-  // Método para reutilizar valores del cálculo anterior
-  void reutilizarValoresAnteriores(CalculationsController controladorAnterior) {
-    diametro.value = controladorAnterior.diametro.value;
-    velocidad.value = controladorAnterior.velocidad.value;
-    // Actualizar otros valores según sea necesario
+  void calcularPerdidasLongitudTuberia() {
+    final factorFriccionActual = factorFriccion.value;
+    final diametroActual = diametro.value;
+    final longitudActual = longitud.value;
+    final caudalActual = caudal.value;
+
+    if (factorFriccionActual == 0 ||
+        diametroActual == 0 ||
+        longitudActual == 0 ||
+        caudalActual == 0) {
+      // Manejar valores nulos o faltantes
+      // Puedes establecer un valor predeterminado o mostrar un mensaje de error
+      perdidasLongitudTuberia.value = 0.0;
+      return;
+    }
+    final gravedad = 9.81;
+
+    final perdidasLongitud = (8 *
+            factorFriccionActual *
+            longitudActual *
+            (caudalActual * caudalActual)) /
+        ((pi * pi) * gravedad * pow(diametroActual, 5));
+    perdidasLongitudTuberia.value =
+        double.parse(perdidasLongitud.toStringAsFixed(4));
+  }
+
+  void calcularPerdidasAccesorios() {
+    final coeficienteKActual = coeficienteK.value;
+    final velocidadActual = velocidad.value;
+
+    if (velocidadActual == null || coeficienteKActual == null) {
+      perdidasAccesorios.value = 0.0;
+      return;
+    }
+    final gravedad = 9.81;
+    final perdidasDeAccesorios =
+        coeficienteKActual * (pow(velocidadActual, 2) / 2 * gravedad);
+    perdidasAccesorios.value =
+        double.parse(perdidasDeAccesorios.toStringAsFixed(4));
+  }
+
+  //Bombas
+  RxList<Bomba> bombas = <Bomba>[].obs;
+
+  void crearNuevaBomba(double valorA, double valorB, double caudal,
+      {Color? color}) {
+    if (valorA == 0.0 && valorB == 0.0 && caudal == 0.0) {
+      return;
+    }
+    bombas.add(Bomba(
+        valorA: valorA,
+        valorB: valorB,
+        caudal: caudal,
+        color: color ??
+            Color.fromRGBO(Random().nextInt(256), Random().nextInt(256),
+                Random().nextInt(256), 1.0)));
+    update();
+  }
+
+  void eliminarBomba(int index) {
+    if (index >= 0 && index < bombas.length) {
+      bombas.removeAt(index);
+      update();
+    }
+  }
+
+  void actualizarBomba(
+      int index, double nuevoValorA, double nuevoValorB, double nuevoCaudal,
+      {double? nuevoValorC}) {
+    if (index >= 0 && index < bombas.length) {
+      bombas[index] = Bomba(
+        valorA: nuevoValorA,
+        valorB: nuevoValorB,
+        caudal: nuevoCaudal,
+        valorC: nuevoValorC, // Puedes pasar nuevoValorC o dejarlo como null
+      );
+      update();
+    }
+  }
+
+  List<Bomba> obtenerBombas() {
+    return bombas;
+  }
+
+  Bomba obtenerBomba(int index) {
+    if (index >= 0 && index < bombas.length) {
+      return bombas[index];
+    }
+    throw Exception('Índice de bomba fuera de rango');
+  }
+
+  double calcularAlturaTotal() {
+    double alturaTotal = 0.0;
+
+    for (var bomba in bombas) {
+      alturaTotal += bomba.calcularAltura();
+    }
+
+    // Agregar cualquier otro cálculo necesario aquí
+
+    return alturaTotal;
   }
 }

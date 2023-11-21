@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
                   CustomRectangle(
                     width: double.infinity,
                     height: 80,
-                    color: Colors.green,
+                    color: Colors.orange,
                     text: 'Hidráulica',
                     onPressed: () { Navigator.pushNamed(context, '/hidraulica'); },
                   ),
@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
                   CustomRectangle(
                     width: double.infinity,
                     height: 80,
-                    color: Colors.orange,
+                    color: Colors.green,
                     text: 'Tutoriales',
                     onPressed: () {Navigator.pushNamed(context, '/tutoriales');},
                   ),

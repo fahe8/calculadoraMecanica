@@ -4,7 +4,7 @@ class CustomRectangle extends StatelessWidget {
   final double width;
   final double height;
   final Color color;
-  final String text;
+  final String? text;
   final VoidCallback? onPressed;
   final double size;
 
@@ -12,7 +12,7 @@ class CustomRectangle extends StatelessWidget {
     required this.width,
     required this.height,
     required this.color,
-    required this.text,
+    this.text,
     this.onPressed,
     this.size = 20,
   });
@@ -28,7 +28,7 @@ class CustomRectangle extends StatelessWidget {
         height: height,
         child: Center(
           child: Text(
-            text,
+            text!,
             style: TextStyle(
               color: Colors.black,
               fontSize: size,

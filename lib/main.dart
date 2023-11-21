@@ -1,6 +1,9 @@
 import 'package:calculator/controllers/CalculationsController.dart';
+import 'package:calculator/screens/Home.dart';
 import 'package:calculator/screens/SplashScreen.dart';
 import 'package:calculator/screens/bombasScreens/BombasScreen.dart';
+import 'package:calculator/screens/bombasScreens/pages/BombasOpciones.dart';
+import 'package:calculator/screens/bombasScreens/pages/BombasSerie.dart';
 import 'package:calculator/screens/hidraulicaScreens/Accesorios.dart';
 import 'package:calculator/screens/hidraulicaScreens/CalculosHidraulicosScreen.dart';
 import 'package:calculator/screens/hidraulicaScreens/FactorFriccion.dart';
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
       routes: {
+        '/home': (context) => Home(),
         '/hidraulica': (context) => HidraulicaScreen(),
         '/hidraulica/calculoshidraulicos': (context) =>
             CalculosHidraulicosScreen(),
@@ -39,6 +43,9 @@ class MyApp extends StatelessWidget {
             LongitudTuberia(),
         '/hidraulica/calculoshidraulicos/accesorios': (context) => Accesorios(),
         '/bombas': (context) => BombasScreen(),
+       '/bombas/seleccionBombas': (context) => BombasOpciones(),
+
+
         // '/interpolador': (context) => InterpoladorScreen(),
         // '/tutoriales': (context) => TutorialesScreen(),
       },

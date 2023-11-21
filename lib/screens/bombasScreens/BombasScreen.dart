@@ -3,12 +3,17 @@ import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:flutter/material.dart';
 
 class BombasScreen extends StatelessWidget {
-const BombasScreen({ Key? key }) : super(key: key);
+  const BombasScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Bomba', backgroundColor: Colors.blue,),
+      appBar: MyAppBar(
+          title: 'Bomba',
+          backgroundColor: Colors.blue,
+          routeBack: () {
+           Navigator.pushNamed(context, '/home');
+          }),
       body: Container(
         color: Color(0xFF15102C),
         child: Column(children: [
@@ -28,7 +33,7 @@ const BombasScreen({ Key? key }) : super(key: key);
                   height: 50,
                   color: Colors.blue,
                   text: 'Selección de Bombas',
-                  onPressed: () {},
+                  onPressed: () {Navigator.pushNamed(context, '/bombas/seleccionBombas');},
                 ),
                 CustomRectangle(
                   width: double.infinity,
