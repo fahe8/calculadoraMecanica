@@ -1,3 +1,4 @@
+import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +22,7 @@ class CustomInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade300,
+        color: ColoresApp.greyShade,
         borderRadius: BorderRadius.circular(10),
       ),
       width: double.infinity,
@@ -61,9 +62,10 @@ class CustomInput extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
+      
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
           title: 'Cálculos hidráulicos',
-          backgroundColor: Colors.orange,
+          backgroundColor: ColoresApp.hidraulica,
           routeBack: () {
             Navigator.pushNamed(context, '/home');
           }),
@@ -30,7 +31,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
-                  color: Colors.orange,
+                  color: ColoresApp.hidraulica,
                   text: 'Velocidad',
                   onPressed: () {
                     Navigator.pushNamed(
@@ -43,7 +44,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
-                  color: Colors.orange,
+                  color: ColoresApp.hidraulica,
                   text: 'Número de Reynolds',
                   onPressed: () {
                     Navigator.pushNamed(
@@ -56,7 +57,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
-                  color: Colors.orange,
+                  color: ColoresApp.hidraulica,
                   text: 'Factor de Fricción',
                   onPressed: () {
                     Navigator.pushNamed(context,
@@ -69,7 +70,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
-                  color: Colors.orange,
+                  color: ColoresApp.hidraulica,
                   text: 'Pérdidas: Longitud de tuberia',
                   onPressed: () {
                     Navigator.pushNamed(context,
@@ -82,7 +83,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
-                  color: Colors.orange,
+                  color: ColoresApp.hidraulica,
                   text: 'Pérdidas: Accesorios',
                   onPressed: () {
                     Navigator.pushNamed(

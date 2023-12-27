@@ -17,8 +17,8 @@ class Velocidad extends StatefulWidget {
 
 class _VelocidadState extends State<Velocidad> {
 //Controladores de formulario
- final TextEditingController _controllerCaudal = TextEditingController();
- final TextEditingController _controllerDiametro = TextEditingController();
+  final TextEditingController _controllerCaudal = TextEditingController();
+  final TextEditingController _controllerDiametro = TextEditingController();
 
 // Obtén la instancia de CalculationsController
   final CalculationsController calculationsController =
@@ -56,19 +56,15 @@ class _VelocidadState extends State<Velocidad> {
     // Muestra el resultado en un diálogo o de otra manera
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return HydraulicCalculationScreen(
       title: 'Velocidad',
       controllers: [_controllerCaudal, _controllerDiametro],
       values: calculationsController.velocidad,
-      units: ' m/s',
       inputLabels: ['Caudal', 'Diámetro'],
       calculateMethod: calcularVelocidad,
       nextRoute: '/hidraulica/calculoshidraulicos/reynolds',
     );
   }
-
 }

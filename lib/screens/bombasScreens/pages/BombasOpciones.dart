@@ -111,7 +111,6 @@ class _BombasOpcionesState extends State<BombasOpciones> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF15102C),
       appBar: MyAppBar(
           title: 'Bombas',
           backgroundColor: Colors.blue,

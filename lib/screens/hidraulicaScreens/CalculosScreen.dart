@@ -1,3 +1,4 @@
+import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomInput.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
@@ -11,7 +12,6 @@ class HydraulicCalculationScreen extends StatelessWidget {
   final String title;
   final List<TextEditingController> controllers;
   final RxDouble values;
-  final String? units;
   final List<String> inputLabels;
   final VoidCallback calculateMethod;
   final String? nextRoute;
@@ -26,7 +26,6 @@ class HydraulicCalculationScreen extends StatelessWidget {
     required this.calculateMethod,
     this.nextRoute,
     this.prevRoute,
-    this.units,
   }) : super(key: key);
 
   @override
@@ -34,34 +33,39 @@ class HydraulicCalculationScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         title: title,
-        backgroundColor: Colors.orange,
+        backgroundColor: ColoresApp.hidraulica,
         routeBack: () {
           Navigator.pushNamed(context, '/hidraulica/calculoshidraulicos');
         },
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // ... (otros widgets comunes)
               for (int i = 0; i < controllers.length; i++)
-                CustomInput(
-                  color: Colors.orange,
-                  text: inputLabels[i],
-                  size: 15,
-                  controller: controllers[i],
+                Column(
+                  children: [
+                    CustomInput(
+                      color: ColoresApp.hidraulica,
+                      text: inputLabels[i],
+                      size: 15,
+                      controller: controllers[i],
+                    ),
+                    SizedBox(
+                        height:
+                            15), // Espacio de 20 después de cada CustomInput
+                  ],
                 ),
-              SizedBox(height: 50),
-              // ... (otros widgets comunes)
               buildResultRow(),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
               buildCalculateButton(),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (prevRoute != null) buildPrevButton(context),
+                  if (prevRoute != null && nextRoute != null)SizedBox(width: 20),
                   if (nextRoute != null) buildNextButton(context),
                 ],
               )
@@ -73,87 +77,64 @@ class HydraulicCalculationScreen extends StatelessWidget {
   }
 
   Widget buildResultRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomRectangle(
-          width: 80,
-          height: 50,
-          color: Colors.orange,
-          text: 'Resultado',
-          size: 15,
-        ),
-        Obx(
-          () => CustomRectangle(
-            width: 180,
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey.shade300, borderRadius: BorderRadius.circular(15)),
+      width: double.infinity,
+      child: Row(
+        children: [
+          CustomRectangle(
             height: 50,
-            color: Colors.grey.shade300,
-            text: values.toString() + (units != null ? units! : ''),
-            size: 18,
+            color: ColoresApp.hidraulica,
+            text: 'Resultado',
+            size: 15,
+            width: 130,
           ),
-        )
-      ],
+          Obx(
+            () => Expanded(
+                child: Container(
+              height: 50,
+              child: Center(
+                child: Text(
+                  values.toString(),
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            )),
+          )
+        ],
+      ),
     );
   }
 
   Widget buildCalculateButton() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomRectangle(
-            width: 80,
-            height: 40,
-            color: Colors.grey.shade300,
-            text: 'Calcular',
-            size: 18,
-            onPressed: calculateMethod,
-          ),
-        ],
+    return ElevatedButton(
+      onPressed: () {
+        calculateMethod();
+      },
+      child: Text(
+        'CALCULAR',
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
 
   Widget buildNextButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomRectangle(
-            width: 80,
-            height: 30,
-            color: Colors.orange.shade300,
-            text: 'Siguiente',
-            size: 13,
-            onPressed: () {
-              Navigator.pushNamed(context, nextRoute!);
-            },
-          ),
-        ],
-      ),
+    return ElevatedButton(
+      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(ColoresApp.hidraulica)),
+      onPressed: () {
+        Navigator.pushNamed(context, nextRoute!);
+      },
+      child: Text('SIGUIENTE', style: TextStyle(color: Colors.black)),
     );
   }
 
   Widget buildPrevButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomRectangle(
-            width: 80,
-            height: 30,
-            color: Colors.orange.shade300,
-            text: 'Anterior',
-            size: 13,
-            onPressed: () {
-              Navigator.pushNamed(context, prevRoute!);
-            },
-          ),
-        ],
-      ),
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, prevRoute!);
+      },
+      child: Text('ANTERIOR', style: TextStyle(color: Colors.black)),
     );
   }
 }

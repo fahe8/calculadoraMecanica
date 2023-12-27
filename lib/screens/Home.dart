@@ -1,5 +1,7 @@
+import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,6 +11,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +41,7 @@ class _HomeState extends State<Home> {
                   CustomRectangle(
                     width: double.infinity,
                     height: 80,
-                    color: Colors.orange,
+                    color: ColoresApp.hidraulica,
                     text: 'Hidráulica',
                     onPressed: () { Navigator.pushNamed(context, '/hidraulica'); },
                   ),
@@ -39,7 +49,7 @@ class _HomeState extends State<Home> {
                   CustomRectangle(
                     width: double.infinity,
                     height: 80,
-                    color: Colors.blue,
+                    color: ColoresApp.bombas,
                     text: 'Bombas',
                     onPressed: () { Navigator.pushNamed(context, '/bombas');},
                   ),
@@ -47,7 +57,7 @@ class _HomeState extends State<Home> {
                   CustomRectangle(
                     width: double.infinity,
                     height: 80,
-                    color: Colors.purple,
+                    color: ColoresApp.interpolador,
                     text: 'Interpolador',
                     onPressed: () { Navigator.pushNamed(context, '/interpolador');},
                   ),

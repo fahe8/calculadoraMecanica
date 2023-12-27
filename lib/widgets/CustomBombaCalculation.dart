@@ -1,3 +1,4 @@
+import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomInput.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class CustomBombaCalculation extends StatelessWidget {
                       CustomRectangle(
                         width: 100,
                         height: 40,
-                        color: Colors.grey.shade300,
+                        color: ColoresApp.greyShade,
                         text: 'Calcular',
                         size: 13,
                         onPressed: onpressed,

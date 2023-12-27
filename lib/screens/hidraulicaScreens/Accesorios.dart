@@ -64,7 +64,7 @@ class _AccesoriosState extends State<Accesorios> {
       values: calculationsController.perdidasAccesorios,
       inputLabels: ['Coeficiente K', 'Velocidad'],
       calculateMethod: calcularPerdidasDeAccesorios,
-      prevRoute: '/hidraulica/calculoshidraulicos',
+      prevRoute: '/hidraulica/calculoshidraulicos/longitudtuberia',
     );
   }
 }

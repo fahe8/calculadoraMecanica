@@ -15,7 +15,6 @@ class BombasScreen extends StatelessWidget {
            Navigator.pushNamed(context, '/home');
           }),
       body: Container(
-        color: Color(0xFF15102C),
         child: Column(children: [
           Image.asset(
             'assets/bomba.png',
