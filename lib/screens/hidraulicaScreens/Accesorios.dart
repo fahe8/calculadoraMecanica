@@ -1,5 +1,6 @@
 import 'package:calculator/controllers/CalculationsController.dart';
 import 'package:calculator/controllers/utils/ControllerUtils.dart';
+import 'package:calculator/screens/hidraulicaScreens/CalculosScreen.dart';
 import 'package:calculator/widgets/CustomInput.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
@@ -53,108 +54,17 @@ class _AccesoriosState extends State<Accesorios> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF15102C),
-      appBar: MyAppBar(
-          title: 'Pérdidas: Accesorios',
-          backgroundColor: Colors.orange,
-          routeBack: () {
-            Navigator.pushNamed(context, '/hidraulica/calculoshidraulicos');
-          }),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Image.asset(
-            'assets/velocidad.png',
-            width: 200,
-            height: 200,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'Coeficiente K',
-                    hintText: 'Escribe el Coeficiente K',
-                    size: 15,
-                    controller: _controllerCoeficienteK),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'Velocidad (m/s)',
-                    hintText: 'Escribe la velocidad',
-                    size: 15,
-                    controller: _controllerVelocidad),
-                SizedBox(
-                  height: 50,
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                          width: 80,
-                          height: 50,
-                          color: Colors.orange,
-                          text: 'Resultado',
-                          size: 15,
-                        ),
-                        Obx(
-                          () => CustomRectangle(
-                            width: 180,
-                            height: 50,
-                            color: Colors.grey.shade300,
-                            text: calculationsController.perdidasAccesorios
-                                .toString(),
-                            size: 18,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                          width: 80,
-                          height: 40,
-                          color: Colors.grey.shade300,
-                          text: 'Calcular',
-                          size: 18,
-                          onPressed: calcularPerdidasDeAccesorios,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                            width: 80,
-                            height: 30,
-                            color: Colors.grey.shade300,
-                            text: 'anterior',
-                            size: 13,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          )
-        ]),
-      ),
+ Widget build(BuildContext context) {
+    return HydraulicCalculationScreen(
+      title: 'Pérdidas: Accesorios',
+      controllers: [
+        _controllerCoeficienteK,
+        _controllerVelocidad,
+      ],
+      values: calculationsController.perdidasAccesorios,
+      inputLabels: ['Coeficiente K', 'Velocidad'],
+      calculateMethod: calcularPerdidasDeAccesorios,
+      prevRoute: '/hidraulica/calculoshidraulicos',
     );
   }
 }

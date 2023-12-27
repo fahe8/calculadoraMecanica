@@ -1,5 +1,6 @@
 import 'package:calculator/controllers/CalculationsController.dart';
 import 'package:calculator/controllers/utils/ControllerUtils.dart';
+import 'package:calculator/screens/hidraulicaScreens/CalculosScreen.dart';
 import 'package:calculator/widgets/CustomInput.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
@@ -68,138 +69,19 @@ class _LongitudTuberiaState extends State<LongitudTuberia> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF15102C),
-      appBar: MyAppBar(
-          title: 'Pérdidas: Longitud de Tuberia',
-          backgroundColor: Colors.orange,
-          routeBack: () {
-            Navigator.pushNamed(context, '/hidraulica/calculoshidraulicos');
-          }),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Image.asset(
-            'assets/velocidad.png',
-            width: 200,
-            height: 200,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'F. Frincción',
-                    hintText: 'Escribe la Friccion',
-                    size: 15,
-                    controller: _controllerFriccion),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'Diámetro (m)',
-                    hintText: 'Escribe el diámetro',
-                    size: 15,
-                    controller: _controllerDiametro),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'Longitud (m)',
-                    hintText: 'Escribe la Longitud',
-                    size: 15,
-                    controller: _controllerLongitud),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomInput(
-                    color: Colors.orange,
-                    text: 'Caudal',
-                    hintText: 'Escribe el Caudal',
-                    size: 15,
-                    controller: _controllerCaudal),
-                SizedBox(
-                  height: 50,
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                          width: 80,
-                          height: 50,
-                          color: Colors.orange,
-                          text: 'Resultado',
-                          size: 15,
-                        ),
-                        Obx(
-                          () => CustomRectangle(
-                            width: 180,
-                            height: 50,
-                            color: Colors.grey.shade300,
-                            text: calculationsController.perdidasLongitudTuberia
-                                .toString(),
-                            size: 18,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                          width: 80,
-                          height: 40,
-                          color: Colors.grey.shade300,
-                          text: 'Calcular',
-                          size: 18,
-                          onPressed: calcularPerdidasDeLongitudTuberia,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRectangle(
-                            width: 80,
-                            height: 30,
-                            color: Colors.grey.shade300,
-                            text: 'anterior',
-                            size: 13,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        CustomRectangle(
-                            width: 80,
-                            height: 30,
-                            color: Colors.orange.shade300,
-                            text: 'siguiente',
-                            size: 13,
-                            onPressed: () {
-                              Navigator.pushNamed(context,
-                                  '/hidraulica/calculoshidraulicos/accesorios');
-                            }),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          )
-        ]),
-      ),
+    return HydraulicCalculationScreen(
+      title: 'Pérdidas: Longitud de Tuberia',
+      controllers: [
+        _controllerFriccion,
+        _controllerDiametro,
+        _controllerLongitud,
+        _controllerCaudal,
+      ],
+      values: calculationsController.perdidasLongitudTuberia,
+      inputLabels: ['F. Fricción', 'Diámetro', 'Longitud', 'Caudal'],
+      calculateMethod: calcularPerdidasDeLongitudTuberia,
+      nextRoute: '/hidraulica/calculoshidraulicos/accesorios',
+      prevRoute: '/hidraulica/calculoshidraulicos/factorfriccion',
     );
   }
 }

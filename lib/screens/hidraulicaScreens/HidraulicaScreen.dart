@@ -13,7 +13,7 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF15102C),
+  
       appBar: MyAppBar(
           title: 'Hidráulica',
           backgroundColor: Colors.orange,

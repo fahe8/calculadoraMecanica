@@ -15,7 +15,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
             Navigator.pushNamed(context, '/home');
           }),
       body: Container(
-        color: Color(0xFF15102C),
+
         child: Column(children: [
           Image.asset(
             'assets/hidraulica.png',
@@ -86,7 +86,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                   text: 'Pérdidas: Accesorios',
                   onPressed: () {
                     Navigator.pushNamed(
-                        context, '/hidraulica/calculoshidraulicos/ ');
+                        context, '/hidraulica/calculoshidraulicos/accesorios');
                   },
                 ),
               ],

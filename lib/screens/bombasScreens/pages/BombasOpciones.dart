@@ -36,7 +36,7 @@ class _BombasOpcionesState extends State<BombasOpciones> {
   valorC = double.tryParse(_controllerValorC.text);
 
 // Llama al método crearNuevaBomba en CalculationsController
-    calculationsController.crearNuevaBomba(valorA, valorB, valorQ, color: null, valorC: valorC,);
+
   }
 
   void mostrarVentanaModalCrearBomba() {
@@ -137,36 +137,36 @@ class _BombasOpcionesState extends State<BombasOpciones> {
                   SizedBox(
                     height: 20,
                   ),
-                  Obx(() => Column(
-                        children: List.generate(
-                          calculationsController.bombas.length,
-                          (index) {
-                            final bomba = calculationsController.bombas[index];
+                  // Obx(() => Column(
+                  //       children: List.generate(
+                  //         calculationsController.bombas.length,
+                  //         (index) {
+                  //           final bomba = calculationsController.bombas[index];
 
-                            return Column(
-                              children: [
-                                RectangleBombas(
-                                  color: bomba.color!,
-                                  text: 'Opciones bomba ${index + 1}',
-                                  onPressed:  () {
-                                    // Navega a la pantalla de detalle usando Navigator.pushNamed
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetallesBoma(index: index),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                    height:
-                                        10), // Agrega un SizedBox de 10 después de cada RectangleBombas
-                              ],
-                            );
-                          },
-                        ),
-                      )),
+                  //           return Column(
+                  //             children: [
+                  //               RectangleBombas(
+                  //                 color: bomba.color!,
+                  //                 text: 'Opciones bomba ${index + 1}',
+                  //                 onPressed:  () {
+                  //                   // Navega a la pantalla de detalle usando Navigator.pushNamed
+                  //                   Navigator.push(
+                  //                     context,
+                  //                     MaterialPageRoute(
+                  //                       builder: (context) =>
+                  //                           DetallesBoma(index: index),
+                  //                     ),
+                  //                   );
+                  //                 },
+                  //               ),
+                  //               SizedBox(
+                  //                   height:
+                  //                       10), // Agrega un SizedBox de 10 después de cada RectangleBombas
+                  //             ],
+                  //           );
+                  //         },
+                  //       ),
+                  //     )),
                   SizedBox(
                     height: 50,
                   ),

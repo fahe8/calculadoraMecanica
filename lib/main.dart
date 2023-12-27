@@ -12,6 +12,7 @@ import 'package:calculator/screens/hidraulicaScreens/HidraulicaScreen.dart';
 import 'package:calculator/screens/hidraulicaScreens/LongitudTuberia.dart';
 import 'package:calculator/screens/hidraulicaScreens/NumeroReynolds.dart';
 import 'package:calculator/screens/hidraulicaScreens/Velocidad.dart';
+import 'package:calculator/screens/interpolador/InterpoladorScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
        '/bombas/seleccionBombas': (context) => BombasOpciones(),
 
 
-        // '/interpolador': (context) => InterpoladorScreen(),
+        '/interpolador': (context) => InterpoladorScreen(),
         // '/tutoriales': (context) => TutorialesScreen(),
       },
     );
