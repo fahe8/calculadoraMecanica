@@ -46,21 +46,31 @@ class CustomInput extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: TextField(
-                controller: controller,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),],
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: hintText,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      controller.clear();
-                    },
-                    icon: Icon(Icons.clear),
-                  ),
-                ),
+              child:TextField(
+           
+            controller: controller,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),
+            ],
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10.0),
               ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  controller.clear();
+                },
+                icon: Icon(Icons.clear),
+              ),
+            ),
+            textAlign: TextAlign.start,
+          ),
             ),
           ),
         ],

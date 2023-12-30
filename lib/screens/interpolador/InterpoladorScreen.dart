@@ -45,7 +45,9 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
               SizedBox(height: 16),
               Container(
                 padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(color: ColoresApp.greyShade, borderRadius: BorderRadius.circular(15)),
+                decoration: BoxDecoration(
+                    color: ColoresApp.greyShade,
+                    borderRadius: BorderRadius.circular(15)),
                 child: Column(children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +69,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                       SizedBox(
                         width: 10,
                       ),
-                     rectanguloCoordenada('Y', _controllerY),
+                      rectanguloCoordenada('Y', _controllerY),
                     ],
                   ),
                   SizedBox(
@@ -93,7 +95,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                     onPressed: () {
                       setState(() {
                         _showGraph = false;
-                         _controllerX0.clear();
+                        _controllerX0.clear();
                         _controllerY0.clear();
                         _controllerX1.clear();
                         _controllerY1.clear();
@@ -103,7 +105,9 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                     },
                     child: Text('Reiniciar'),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -121,41 +125,51 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
     );
   }
 
- LineChart _buildGraph() {
-  final x0 = double.tryParse(_controllerX0.text) ?? 0;
-  final y0 = double.tryParse(_controllerY0.text) ?? 0;
-  final x1 = double.tryParse(_controllerX1.text) ?? 0;
-  final y1 = double.tryParse(_controllerY1.text) ?? 0;
-  final x = double.tryParse(_controllerX.text) ?? 0;
-  final y = ((y1 - y0) / (x1 - x0)) * (x - x0) + y0;
+  LineChart _buildGraph() {
+    final x0 = double.tryParse(_controllerX0.text) ?? 0;
+    final y0 = double.tryParse(_controllerY0.text) ?? 0;
+    final x1 = double.tryParse(_controllerX1.text) ?? 0;
+    final y1 = double.tryParse(_controllerY1.text) ?? 0;
+    final x = double.tryParse(_controllerX.text) ?? 0;
+    final y = ((y1 - y0) / (x1 - x0)) * (x - x0) + y0;
 
-  final minX = [x0, x, x1].reduce((min, value) => min > value ? value : min);
-  final maxX = [x0, x, x1].reduce((max, value) => max < value ? value : max);
-  final minY = [y0, y, y1].reduce((min, value) => min > value ? value : min);
-  final maxY = [y0, y, y1].reduce((max, value) => max < value ? value : max);
+    final minX = [x0, x, x1].reduce((min, value) => min > value ? value : min);
+    final maxX = [x0, x, x1].reduce((max, value) => max < value ? value : max);
+    final minY = [y0, y, y1].reduce((min, value) => min > value ? value : min);
+    final maxY = [y0, y, y1].reduce((max, value) => max < value ? value : max);
 
-  print('resultado Y ${y}');
+    print('resultado Y ${y}');
 
-  return LineChart(
-    LineChartData(
-      gridData: FlGridData(show: true),
-      titlesData: FlTitlesData(),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: Colors.black),
+    return LineChart(
+      LineChartData(
+        lineTouchData: LineTouchData(
+          
+        ),
+        
+        gridData: FlGridData(show: true),
+        titlesData: const FlTitlesData(
+          rightTitles:  AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        
+        ),
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: Colors.black),
+        ),
+        minX: minX - 2,
+        maxX: maxX + 2,
+        minY: minY - 2,
+        maxY: maxY + 2,
+        lineBarsData: [
+          interpolateLineData(),
+        ],
       ),
-      minX: minX - 2,
-      maxX: maxX + 2,
-      minY: minY - 2,
-      maxY: maxY + 2,
-      lineBarsData: [
-        interpolateLineData(),
-      ],
-    ),
-  );
-}
-
-
+    );
+  }
 
   LineChartBarData interpolateLineData() {
     final x0 = double.tryParse(_controllerX0.text) ?? 0;
@@ -166,8 +180,8 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
 
     // Realiza la interpolación lineal
     final y = ((y1 - y0) / (x1 - x0)) * (x - x0) + y0;
-     _controllerY.text = y.toString();
-   
+    _controllerY.text = y.toString();
+
     return LineChartBarData(
       spots: [
         FlSpot(x0, y0),
@@ -176,8 +190,9 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
       ],
       isCurved: true,
       color: Colors.blue,
-      dotData: FlDotData(show: false),
+      dotData: FlDotData(show: true,),
       belowBarData: BarAreaData(show: false),
+
     );
   }
 
@@ -185,7 +200,15 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
     return LineChart(
       LineChartData(
         gridData: FlGridData(show: true),
-        titlesData: FlTitlesData(),
+       titlesData: const FlTitlesData(
+          rightTitles:  AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        
+        ),
         borderData: FlBorderData(
           show: true,
           border: Border.all(color: Colors.black),
@@ -214,7 +237,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
         Container(
           width: 130,
           child: TextField(
-            enabled: controller == _controllerY ? false: true,
+            enabled: controller == _controllerY ? false : true,
             controller: controller,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
@@ -242,6 +265,4 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
       ],
     );
   }
-
- 
 }
