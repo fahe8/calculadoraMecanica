@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-
-
 class CalculationsController extends GetxController {
   //Hidraulica
   var diametro = RxDouble(0.0);
@@ -19,7 +17,7 @@ class CalculationsController extends GetxController {
   var perdidasLongitudTuberia = RxDouble(0.0);
   var perdidasAccesorios = RxDouble(0.0);
 
- void calcularVelocidad() {
+  void calcularVelocidad() {
     final caudalActual = caudal.value;
     final diametroActual = diametro.value;
 
@@ -38,13 +36,15 @@ class CalculationsController extends GetxController {
     final diametroActual = diametro.value;
     final viscosidadCinematicaActual = viscosidadCinematica.value;
 
-    if (velocidadActual == 0 || diametroActual == 0 || viscosidadCinematicaActual == 0) {
+    if (velocidadActual == 0 ||
+        diametroActual == 0 ||
+        viscosidadCinematicaActual == 0) {
       numeroReynolds.value = 0.0;
       return;
     }
 
-    final densidadFluido = 1000.0;
-    final reynoldsCalculado = calcularReynolds(densidadFluido, velocidadActual, diametroActual, viscosidadCinematicaActual);
+    final reynoldsCalculado = calcularReynolds(
+        velocidadActual, diametroActual, viscosidadCinematicaActual);
     numeroReynolds.value = redondear(reynoldsCalculado);
   }
 
@@ -58,8 +58,8 @@ class CalculationsController extends GetxController {
       return;
     }
 
-    final epsilonD = rugosidadActual / diametroActual;
-    final factorFriccionCalculado = calcularFactorFriccionSimplificado(epsilonD, reynoldsActual);
+    final factorFriccionCalculado =
+        calcularFactorFriccionSimplificado(rugosidadActual, reynoldsActual, diametroActual);
     factorFriccion.value = redondear(factorFriccionCalculado);
   }
 
@@ -69,13 +69,17 @@ class CalculationsController extends GetxController {
     final longitudActual = longitud.value;
     final caudalActual = caudal.value;
 
-    if (factorFriccionActual == 0 || diametroActual == 0 || longitudActual == 0 || caudalActual == 0) {
+    if (factorFriccionActual == 0 ||
+        diametroActual == 0 ||
+        longitudActual == 0 ||
+        caudalActual == 0) {
       perdidasLongitudTuberia.value = 0.0;
       return;
     }
 
     final gravedad = 9.81;
-    final perdidasLongitud = calcularPerdidasLongitud(factorFriccionActual, longitudActual, caudalActual, diametroActual, gravedad);
+    final perdidasLongitud = calcularPerdidasLongitud(factorFriccionActual,
+        longitudActual, caudalActual, diametroActual, gravedad);
     perdidasLongitudTuberia.value = redondear(perdidasLongitud);
   }
 
@@ -89,7 +93,8 @@ class CalculationsController extends GetxController {
     }
 
     final gravedad = 9.81;
-    final perdidasDeAccesorios = calcularPerdidasAccesorio(coeficienteKActual, velocidadActual, gravedad);
+    final perdidasDeAccesorios = calcularPerdidasAccesorio(
+        coeficienteKActual, velocidadActual, gravedad);
     perdidasAccesorios.value = redondear(perdidasDeAccesorios);
   }
 
@@ -99,29 +104,30 @@ class CalculationsController extends GetxController {
     return pow(diametro / 2, 2) * pi;
   }
 
-  double calcularReynolds(double densidad, double velocidad, double diametro, double viscosidadCinematica) {
-    return (densidad * velocidad * diametro) / viscosidadCinematica;
+  double calcularReynolds(
+      double velocidad, double diametro, double viscosidadCinematica) {
+    return (velocidad * diametro) / viscosidadCinematica;
   }
 
-  double calcularFactorFriccionSimplificado(double epsilonD, double reynolds) {
-    return 0.25 / pow(log(epsilonD / 3.7 + 5.74 / pow(reynolds, 0.9)), 2);
+ double calcularFactorFriccionSimplificado(double rugosidad, double reynolds, double diametro) {
+  return 1.325 / pow(log((rugosidad / (3.7 * diametro)) + (5.74 / pow(reynolds, 0.9))), 2);
+}
+
+
+  double calcularPerdidasLongitud(double factorFriccion, double longitud,
+      double caudal, double diametro, double gravedad) {
+    return (8 * factorFriccion * longitud * (caudal * caudal)) /
+        ((pi * pi) * gravedad * pow(diametro, 5));
   }
 
-  double calcularPerdidasLongitud(double factorFriccion, double longitud, double caudal, double diametro, double gravedad) {
-    return (8 * factorFriccion * longitud * (caudal * caudal)) / ((pi * pi) * gravedad * pow(diametro, 5));
-  }
-
-  double calcularPerdidasAccesorio(double coeficienteK, double velocidad, double gravedad) {
+  double calcularPerdidasAccesorio(
+      double coeficienteK, double velocidad, double gravedad) {
     return coeficienteK * (pow(velocidad, 2) / 2 * gravedad);
   }
 
   double redondear(double valor) {
     return double.parse(valor.toStringAsFixed(4));
   }
-
 }
 
-
-class CalculationsBombsController extends GetxController {
-
-}
+class CalculationsBombsController extends GetxController {}

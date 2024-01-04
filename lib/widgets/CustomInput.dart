@@ -51,7 +51,8 @@ class CustomInput extends StatelessWidget {
             controller: controller,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+
             ],
             decoration: InputDecoration(
               filled: true,
