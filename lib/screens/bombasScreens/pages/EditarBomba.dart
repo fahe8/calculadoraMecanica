@@ -5,40 +5,63 @@ import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CrearBomba extends StatelessWidget {
-  TextEditingController _controllerValorA = TextEditingController();
+class EditarBomba extends StatefulWidget {
+  final  index;
+  const EditarBomba({ Key? key, this.index }) : super(key: key);
+
+  @override
+  _EditarBombaState createState() => _EditarBombaState();
+}
+
+class _EditarBombaState extends State<EditarBomba> {
+   TextEditingController _controllerValorA = TextEditingController();
   TextEditingController _controllerValorB = TextEditingController();
+
 
   final BombaController bombaController = Get.find<BombaController>();
 
-  agregarNuevaBomba() {
+  EditarCurva() {
     double valorA = double.parse(_controllerValorA.text);
     double valorB = double.parse(_controllerValorB.text);
 
-    BombaModel nuevaBomba = BombaModel(A: valorA, B: valorB);
+    BombaModel bombaEditada = BombaModel(A: valorA, B: valorB);
 
-    bombaController.agregarBomba(nuevaBomba);
+    bombaController.editarBomba(bombaEditada, widget.index);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Obtén la curva seleccionada y establece los valores iniciales en los controladores de texto
+
+    _controllerValorA.text =
+        bombaController.bombas[widget.index].A.toString() ?? '';
+    _controllerValorB.text =
+        bombaController.bombas[widget.index].B.toString() ?? '';
+
+ 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-          title: 'Crear Bomba',
+          title: 'Editar bomba',
           backgroundColor: ColoresApp.bombas,
           routeBack: () {
             Navigator.pop(context);
           }),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
              Image.asset(
-          'assets/bomba.png',
-          width: 200,
-          height: 200,
-        ),
+            'assets/bomba.png',
+            width: 200,
+            height: 200,
+          ),
             CustomInput(
               color: Colors.blue,
               text: 'A',
@@ -47,7 +70,7 @@ class CrearBomba extends StatelessWidget {
               controller: _controllerValorA,
             ),
             SizedBox(
-              height: 20,
+              height: 15,
             ),
             CustomInput(
               color: Colors.blue,
@@ -59,12 +82,13 @@ class CrearBomba extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+         
             ElevatedButton(
               onPressed: () {
-                agregarNuevaBomba();
+                EditarCurva();
                 Navigator.pop(context);
               },
-              child: Text('Agregar Bomba'),
+              child: Text('Editar bomba'),
             ),
           ],
         ),

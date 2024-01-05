@@ -26,10 +26,7 @@ class _CrearCurvaState extends State<CrearCurva> {
 
     double valorQ = double.parse(_controllerValorQ.text);
 
-    
-
     bombaController.crearCurva(valorA, valorB, valorQ);
-  
   }
 
   @override
@@ -41,12 +38,17 @@ class _CrearCurvaState extends State<CrearCurva> {
           routeBack: () {
             Navigator.pop(context);
           }),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Image.asset(
+                'assets/bomba_Curva.png',
+                width: 200,
+                height: 200,
+              ),
               CustomInput(
                 color: Colors.blue,
                 text: 'A',

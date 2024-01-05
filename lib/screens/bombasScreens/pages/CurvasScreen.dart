@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:calculator/controllers/bombaController.dart';
 import 'package:calculator/controllers/utils/Colores.dart';
+import 'package:calculator/screens/bombasScreens/pages/CrearBomba.dart';
 import 'package:calculator/screens/bombasScreens/pages/CrearCurva.dart';
 import 'package:calculator/screens/bombasScreens/pages/DetallesCurvaScreen.dart';
+import 'package:calculator/screens/bombasScreens/pages/EditarBomba.dart';
 import 'package:calculator/screens/bombasScreens/pages/EditarCurva.dart';
 
 import 'package:calculator/widgets/CustomRectangle.dart';
@@ -36,7 +40,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
           children: [
             Container(
                 padding: EdgeInsets.only(top: 16, right: 16),
-                height: 400,
+                height: 300,
                 child: Obx(
                   () => bombaController.showGraph.value
                       ? _buildGraph()
@@ -44,66 +48,95 @@ class _CurvasScreenState extends State<CurvasScreen> {
                 )),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Obx(
-                () => bombaController.curvaResistente.value.A == 0 &&
-                        bombaController.curvaResistente.value.B == 0 &&
-                        bombaController.curvaResistente.value.Q == 0
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomRectangle(
-                            width: 200,
-                            height: 50,
-                            color: Colors.grey.shade200,
-                            text: 'Añadir curva Resistente',
-                            size: 13,
-                            onPressed: () {
+              child: Column(
+                children: [
+                  Obx(
+                    () => bombaController.curvaResistente.value.A == 0 &&
+                            bombaController.curvaResistente.value.B == 0 &&
+                            bombaController.curvaResistente.value.Q == 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomRectangle(
+                                width: 200,
+                                height: 50,
+                                color: Colors.grey.shade200,
+                                text: 'Añadir curva Resistente',
+                                size: 13,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CrearCurva()),
+                                  );
+                                },
+                              )
+                            ],
+                          )
+                        : RectangleBombas(
+                            color: Colors.blue.shade300,
+                            text: 'Modificar Curva',
+                            onPressed: (() {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CrearCurva()),
+                                    builder: (context) => EditarCurva()),
                               );
-                            },
-                          )
-                        ],
-                      )
-                    : RectangleBombas(
-                        color: Colors.orange.shade300, text: 'Modificar Curva'),
+                            }),
+                          ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  listaBombas(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  CustomRectangle(
+                    width: 120,
+                    height: 40,
+                    color: Colors.grey.shade200,
+                    text: 'Agregar Bomba',
+                    size: 13,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CrearBomba()),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-            CustomRectangle(
-              width: 120,
-              height: 40,
-              color: Colors.grey.shade200,
-              text: 'Agregar Bomba',
-              size: 13,
-              onPressed: () {},
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            listaCurvas()
           ],
         ),
       ),
     );
   }
 
-  Widget listaCurvas() {
+  Widget listaBombas() {
     return Obx(() => Column(
           children: List.generate(
-            bombaController.curvas.length,
+            bombaController.bombas.length,
             (index) {
-              BombaModel curva = bombaController.curvas[index];
-
               return Column(
                 children: [
                   RectangleBombas(
-                    color: Colors.black,
-                    text: 'Opciones curva ${index + 1}',
+                    color: ColoresApp
+                        .bombaColors[index % bombaController.bombas.length],
+                    text: 'Opciones Bomba ${index + 1}',
                     options: true,
-                    edit: () {},
-                    delete: () {},
+                    edit: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditarBomba(index: index),
+                        ),
+                      );
+                    },
+                    delete: () {
+                      bombaController.eliminarBombas(index);
+                    },
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -154,6 +187,63 @@ class _CurvasScreenState extends State<CurvasScreen> {
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['HR']!))
         .toList();
 
+    List<LineChartBarData> existingLineBarsData = [
+      LineChartBarData(
+        spots: spots,
+        isCurved: true,
+        color: Colors.blue,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+      ),
+      LineChartBarData(
+        spots: [
+          FlSpot(bombaController.curvaResistente.value.Q, 0),
+          FlSpot(bombaController.curvaResistente.value.Q, 190),
+        ],
+        isCurved: false,
+        color: Colors.red,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+      ),
+    ];
+
+    List<LineChartBarData> dynamicLineBarsData = [];
+
+    for (var i = 0; i < bombaController.bombas.length; i++) {
+      List<FlSpot> spotsBomba = bombaController.puntosBomba
+          .where((punto) =>
+              punto['bomba_id'] == bombaController.bombas[i].id.toDouble())
+          .map((punto) => FlSpot(punto['caudal_litros']!, punto['HR']!))
+          .toList();
+
+      LineChartBarData lineChartBarData = LineChartBarData(
+        spots: spotsBomba,
+        isCurved: true,
+        color: ColoresApp.bombaColors[i],
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+      );
+
+      dynamicLineBarsData.add(lineChartBarData);
+    }
+
+    List<FlSpot> allSpots = [];
+
+// Agregar puntos de la curva existente
+    allSpots.addAll(existingLineBarsData[0].spots);
+
+// Agregar puntos de las bombas dinámicas
+    for (var lineBarData in dynamicLineBarsData) {
+      allSpots.addAll(lineBarData.spots);
+    }
+
+    double maxY =
+        allSpots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
+
+// Añadir un margen para asegurar que todos los puntos estén dentro del rango
+    double margin = 10.0;
+    maxY += margin;
+
     return LineChart(
       LineChartData(
         gridData: FlGridData(show: true),
@@ -166,8 +256,10 @@ class _CurvasScreenState extends State<CurvasScreen> {
             ),
             leftTitles: AxisTitles(
               axisNameWidget: Text('Altura (mca)'),
-              sideTitles:
-                  SideTitles(showTitles: true, reservedSize: 35, interval: 20),
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 35,
+              ),
             ),
             bottomTitles: AxisTitles(
               axisNameWidget: Text('Caudal (l/s)'),
@@ -183,27 +275,9 @@ class _CurvasScreenState extends State<CurvasScreen> {
         minX: 0,
         maxX: 40,
         minY: 0,
-        maxY: 200,
-        lineBarsData: [
-          LineChartBarData(
-            spots: spots,
-            isCurved: true,
-            color: Colors.blue,
-            dotData: FlDotData(show: false),
-            belowBarData: BarAreaData(show: false),
-          ),
-          LineChartBarData(
-            spots: [
-              FlSpot(30, 0),
-              // FlSpot(30, 190),
-              FlSpot(30, 190),
-            ],
-            isCurved: false,
-            color: Colors.red,
-            dotData: FlDotData(show: false),
-            belowBarData: BarAreaData(show: false),
-          )
-        ],
+        maxY: maxY,
+        lineBarsData: [...existingLineBarsData, ...dynamicLineBarsData],
+        clipData: FlClipData.all(),
       ),
     );
   }
