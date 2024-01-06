@@ -83,7 +83,7 @@ class _EditarCurvaState extends State<EditarCurva> {
               ),
               CustomInput(
                 color: Colors.blue,
-                text: 'Q',
+                text: 'Q (l/s)',
                 size: 13,
                 width: 50,
                 controller: _controllerValorQ,

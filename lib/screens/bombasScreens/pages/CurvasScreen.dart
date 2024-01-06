@@ -142,7 +142,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DetallesCurvaScreen(curvaIndex: index),
+                              DetallesCurvaScreen(bombaIndex: index),
                         ),
                       );
                     },
@@ -184,7 +184,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
 
   LineChart _buildGraph() {
     List<FlSpot> spots = bombaController.puntosCurva
-        .map((punto) => FlSpot(punto['caudal_litros']!, punto['HR']!))
+        .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
 
     List<LineChartBarData> existingLineBarsData = [
@@ -213,7 +213,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
       List<FlSpot> spotsBomba = bombaController.puntosBomba
           .where((punto) =>
               punto['bomba_id'] == bombaController.bombas[i].id.toDouble())
-          .map((punto) => FlSpot(punto['caudal_litros']!, punto['HR']!))
+          .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
           .toList();
 
       LineChartBarData lineChartBarData = LineChartBarData(
@@ -258,7 +258,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
               axisNameWidget: Text('Altura (mca)'),
               sideTitles: SideTitles(
                 showTitles: true,
-                reservedSize: 35,
+                reservedSize: 45,
               ),
             ),
             bottomTitles: AxisTitles(

@@ -16,6 +16,7 @@ class EditarBomba extends StatefulWidget {
 class _EditarBombaState extends State<EditarBomba> {
    TextEditingController _controllerValorA = TextEditingController();
   TextEditingController _controllerValorB = TextEditingController();
+  TextEditingController _controllerValorC = TextEditingController();
 
 
   final BombaController bombaController = Get.find<BombaController>();
@@ -23,8 +24,9 @@ class _EditarBombaState extends State<EditarBomba> {
   EditarCurva() {
     double valorA = double.parse(_controllerValorA.text);
     double valorB = double.parse(_controllerValorB.text);
+    double valorC = double.parse(_controllerValorC.text);
 
-    BombaModel bombaEditada = BombaModel(A: valorA, B: valorB);
+    BombaModel bombaEditada = BombaModel(A: valorA, B: valorB, C: valorC);
 
     bombaController.editarBomba(bombaEditada, widget.index);
   }
@@ -39,6 +41,8 @@ class _EditarBombaState extends State<EditarBomba> {
         bombaController.bombas[widget.index].A.toString() ?? '';
     _controllerValorB.text =
         bombaController.bombas[widget.index].B.toString() ?? '';
+    _controllerValorC.text =
+        bombaController.bombas[widget.index].C.toString() ?? '';
 
  
   }
@@ -52,45 +56,57 @@ class _EditarBombaState extends State<EditarBomba> {
           routeBack: () {
             Navigator.pop(context);
           }),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-             Image.asset(
-            'assets/bomba.png',
-            width: 200,
-            height: 200,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+               Image.asset(
+              'assets/bomba.png',
+              width: 200,
+              height: 200,
+            ),
+              CustomInput(
+                color: Colors.blue,
+                text: 'A',
+                size: 13,
+                width: 50,
+                controller: _controllerValorA,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomInput(
+                color: Colors.blue,
+                text: 'B',
+                size: 13,
+                width: 50,
+                controller: _controllerValorB,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomInput(
+                color: Colors.blue,
+                text: 'C',
+                size: 13,
+                width: 50,
+                controller: _controllerValorC,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+           
+              ElevatedButton(
+                onPressed: () {
+                  EditarCurva();
+                  Navigator.pop(context);
+                },
+                child: Text('Editar bomba'),
+              ),
+            ],
           ),
-            CustomInput(
-              color: Colors.blue,
-              text: 'A',
-              size: 13,
-              width: 50,
-              controller: _controllerValorA,
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CustomInput(
-              color: Colors.blue,
-              text: 'B',
-              size: 13,
-              width: 50,
-              controller: _controllerValorB,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-         
-            ElevatedButton(
-              onPressed: () {
-                EditarCurva();
-                Navigator.pop(context);
-              },
-              child: Text('Editar bomba'),
-            ),
-          ],
         ),
       ),
     );

@@ -71,7 +71,7 @@ class _CrearCurvaState extends State<CrearCurva> {
               ),
               CustomInput(
                 color: Colors.blue,
-                text: 'Q',
+                text: 'Q (l/s)',
                 size: 13,
                 width: 50,
                 controller: _controllerValorQ,
