@@ -11,10 +11,12 @@ class BombaSerie extends StatefulWidget {
   final String title;
   final int indexBomba;
 
+
   const BombaSerie({
     Key? key,
     required this.title,
     required this.indexBomba,
+
   }) : super(key: key);
 
   @override
@@ -23,15 +25,26 @@ class BombaSerie extends StatefulWidget {
 
 class _BombaSerieState extends State<BombaSerie> {
   final BombaController bombaController = Get.find<BombaController>();
-  List<FlSpot> bombaPuntos = [];
+
+  int selectedBombaIndex = 0;
+  late List<int> bombaIndices;
+  late List<FlSpot> bombaPuntos = [];
 
   @override
   void initState() {
     super.initState();
-   
 
-    bombaPuntos = bombaController.obtenerPuntosDeBomba(widget.indexBomba);
+    bombaIndices =
+        List.generate(bombaController.bombas.length, (index) => index);
+    selectedBombaIndex = widget.indexBomba;
+
+    _initializeBombaPuntos();
   }
+
+Future<void> _initializeBombaPuntos() async {
+  bombaPuntos = await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+  setState(() {}); // Esto fuerza a redibujar el widget con los datos actualizados
+}
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +71,33 @@ class _BombaSerieState extends State<BombaSerie> {
                 SizedBox(
                   height: 8,
                 ),
-                curvasIdentificador(ColoresApp.bombaColors[widget.indexBomba],
-                    'Bomba #${widget.indexBomba + 1}'),
+                Row(
+                  children: [
+                    Text('Seleccionar Bomba:'),
+                    SizedBox(width: 10),
+                    DropdownButton<int>(
+                      value: selectedBombaIndex,
+                      items: bombaIndices
+                          .map((index) => DropdownMenuItem<int>(
+                                value: index,
+                                child: Text('Bomba #${index + 1}'),
+                              ))
+                          .toList(),
+                      onChanged: (newIndex) async {
+                        setState(() {
+                          selectedBombaIndex = newIndex!;
+                        });
+                        await _initializeBombaPuntos();
+                      },
+                    ),
+                  ],
+                ),
+                curvasIdentificador(ColoresApp.bombaColors[selectedBombaIndex],
+                    'Bomba #${selectedBombaIndex + 1}'),
                 SizedBox(
                   height: 8,
                 ),
-                curvasIdentificador(Colors.pink, 'Serie'),
+                curvasIdentificador(Colors.pink, 'Bombas en serie'),
                 SizedBox(
                   height: 8,
                 ),
@@ -197,11 +231,12 @@ class _BombaSerieState extends State<BombaSerie> {
                 as List<Map<String, double>>)
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
-    print('Esto son los FLSPORT ${spotsVariador}');
+
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),
-      _buildLineBarData(bombaPuntos, ColoresApp.bombaColors[widget.indexBomba]),
+      _buildLineBarData(
+          bombaPuntos, ColoresApp.bombaColors[selectedBombaIndex]),
       _buildLineBarData(
         [
           FlSpot(bombaController.curvaResistente.value.Q, 0),

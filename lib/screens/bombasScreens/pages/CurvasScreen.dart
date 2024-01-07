@@ -273,7 +273,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
           border: Border.all(color: Colors.black),
         ),
         minX: 0,
-        maxX: 40,
+        maxX: bombaController.curvaResistente.value.Q+30,
         minY: 0,
         maxY: maxY,
         lineBarsData: [...existingLineBarsData, ...dynamicLineBarsData],
