@@ -36,17 +36,17 @@ class RectangleBombas extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
+            SizedBox(width: 30,),
             Expanded(
-              child: Center(
-                child: Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                  ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
                 ),
               ),
             ),
+            
             Visibility(
               visible: options,
               child: PopupMenuButton<String>(

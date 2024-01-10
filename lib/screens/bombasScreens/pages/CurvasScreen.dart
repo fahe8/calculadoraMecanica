@@ -47,9 +47,10 @@ class _CurvasScreenState extends State<CurvasScreen> {
                       : _buildEmptyGraph(),
                 )),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8,right: 8, bottom: 8,top: 26),
               child: Column(
                 children: [
+                  
                   Obx(
                     () => bombaController.curvaResistente.value.A == 0 &&
                             bombaController.curvaResistente.value.B == 0 &&
