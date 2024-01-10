@@ -11,12 +11,10 @@ class BombaSerie extends StatefulWidget {
   final String title;
   final int indexBomba;
 
-
   const BombaSerie({
     Key? key,
     required this.title,
     required this.indexBomba,
-
   }) : super(key: key);
 
   @override
@@ -29,7 +27,7 @@ class _BombaSerieState extends State<BombaSerie> {
   int selectedBombaIndex = 0;
   late List<int> bombaIndices;
   late List<FlSpot> bombaPuntos = [];
-
+  late Map<String, dynamic> hallarResultado;
   @override
   void initState() {
     super.initState();
@@ -41,10 +39,17 @@ class _BombaSerieState extends State<BombaSerie> {
     _initializeBombaPuntos();
   }
 
-Future<void> _initializeBombaPuntos() async {
-  bombaPuntos = await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
-  setState(() {}); // Esto fuerza a redibujar el widget con los datos actualizados
-}
+  Future<void> _initializeBombaPuntos() async {
+    bombaPuntos =
+        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+    hallarResultado = bombaController.formulasHallar(
+      widget.indexBomba,
+      TipoCurva.RODETE,
+      '',
+    );
+    setState(
+        () {}); // Esto fuerza a redibujar el widget con los datos actualizados
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,20 +154,17 @@ Future<void> _initializeBombaPuntos() async {
             size: 15,
             width: 130,
           ),
-          Obx(
-            () => Expanded(
-                child: Container(
-              height: 50,
-              child: Center(
-                child: Text(
-                  bombaController
-                      .bombaSerie(widget.indexBomba)['resultado']
-                      .toString(),
-                  style: TextStyle(fontSize: 16),
-                ),
+          Expanded(
+              child: Container(
+            height: 50,
+            child: Center(
+              child: Text(
+                hallarResultado['resultado']
+                    .toString(),
+                style: TextStyle(fontSize: 16),
               ),
-            )),
-          )
+            ),
+          )),
         ],
       ),
     );
@@ -227,7 +229,7 @@ Future<void> _initializeBombaPuntos() async {
         .toList();
 
     List<FlSpot> spotsVariador =
-        (bombaController.bombaSerie(widget.indexBomba)['puntos']
+        (hallarResultado['puntos']
                 as List<Map<String, double>>)
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
@@ -240,7 +242,8 @@ Future<void> _initializeBombaPuntos() async {
       _buildLineBarData(
         [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
-          FlSpot(bombaController.curvaResistente.value.Q, 190),
+          FlSpot(bombaController.curvaResistente.value.Q,
+              bombaController.curvaResistente.value.A + 20),
         ],
         Colors.red,
       ),

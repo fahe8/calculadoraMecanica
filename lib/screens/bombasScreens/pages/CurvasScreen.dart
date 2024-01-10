@@ -183,6 +183,13 @@ class _CurvasScreenState extends State<CurvasScreen> {
   }
 
   LineChart _buildGraph() {
+    double valorMaximoBombaA = bombaController.bombas
+        .map((bomba) => bomba.A)
+        .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
+    double valorMaximoA =
+        bombaController.curvaResistente.value.A > valorMaximoBombaA
+            ? bombaController.curvaResistente.value.A +30
+            : valorMaximoBombaA;
     List<FlSpot> spots = bombaController.puntosCurva
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
@@ -198,7 +205,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
       LineChartBarData(
         spots: [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
-          FlSpot(bombaController.curvaResistente.value.Q, 190),
+          FlSpot(bombaController.curvaResistente.value.Q, valorMaximoA),
         ],
         isCurved: false,
         color: Colors.red,
@@ -239,6 +246,8 @@ class _CurvasScreenState extends State<CurvasScreen> {
 
     double maxY =
         allSpots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
+    double minY =
+        allSpots.map((spot) => spot.y).reduce((max, y) => y < max ? y : max);
 
 // Añadir un margen para asegurar que todos los puntos estén dentro del rango
     double margin = 10.0;
@@ -273,8 +282,8 @@ class _CurvasScreenState extends State<CurvasScreen> {
           border: Border.all(color: Colors.black),
         ),
         minX: 0,
-        maxX: bombaController.curvaResistente.value.Q+30,
-        minY: 0,
+        maxX: bombaController.curvaResistente.value.Q + 10,
+        minY: minY < 0 ? 0 : minY,
         maxY: maxY,
         lineBarsData: [...existingLineBarsData, ...dynamicLineBarsData],
         clipData: FlClipData.all(),

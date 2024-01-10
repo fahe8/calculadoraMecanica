@@ -7,27 +7,27 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ScreenDetalles extends StatefulWidget {
+class RecorteRodete extends StatefulWidget {
   final String title;
   final int indexBomba;
 
-  const ScreenDetalles({
+  const RecorteRodete({
     Key? key,
     required this.title,
     required this.indexBomba,
   }) : super(key: key);
 
   @override
-  _ScreenDetallesState createState() => _ScreenDetallesState();
+  _RecorteRodeteState createState() => _RecorteRodeteState();
 }
 
-class _ScreenDetallesState extends State<ScreenDetalles> {
+class _RecorteRodeteState extends State<RecorteRodete> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
   late List<int> bombaIndices;
   late List<FlSpot> bombaPuntos = [];
-  late Map<String,dynamic> hallarResultado;
+  late Map<String, dynamic> hallarResultado;
   @override
   void initState() {
     super.initState();
@@ -35,12 +35,6 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
     bombaIndices =
         List.generate(bombaController.bombas.length, (index) => index);
     selectedBombaIndex = widget.indexBomba;
- hallarResultado = bombaController.formulasHallar(
-      widget.indexBomba,
-      TipoCurva.VARIADOR,
-      'aumentar',
-    );
-
 
     _initializeBombaPuntos();
   }
@@ -48,6 +42,12 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
   Future<void> _initializeBombaPuntos() async {
     bombaPuntos =
         await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+
+    hallarResultado = await bombaController.formulasHallar(
+      widget.indexBomba,
+      TipoCurva.RODETE,
+      '',
+    );
     setState(
         () {}); // Esto fuerza a redibujar el widget con los datos actualizados
   }
@@ -71,44 +71,56 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                curvasIdentificador(Colors.blue, 'Curva Resistente'),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Text('Seleccionar Bomba:'),
-                    SizedBox(width: 10),
-                    DropdownButton<int>(
-                      value: selectedBombaIndex,
-                      items: bombaIndices
-                          .map((index) => DropdownMenuItem<int>(
-                                value: index,
-                                child: Text('Bomba #${index + 1}'),
-                              ))
-                          .toList(),
-                      onChanged: (newIndex) async {
-                        setState(() {
-                          selectedBombaIndex = newIndex!;
-                        });
-                        await _initializeBombaPuntos();
-                      },
-                    ),
-                  ],
-                ),
-                curvasIdentificador(ColoresApp.bombaColors[selectedBombaIndex],
-                    'Bomba #${selectedBombaIndex + 1}'),
-                SizedBox(
-                  height: 8,
-                ),
-                curvasIdentificador(Colors.pink, 'Variador'),
-                SizedBox(
-                  height: 8,
-                ),
-                buildResultRow()
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  curvasIdentificador(Colors.blue, 'Curva Resistente'),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text('Seleccionar Bomba:'),
+                      SizedBox(width: 10),
+                      DropdownButton<int>(
+                        value: selectedBombaIndex,
+                        items: bombaIndices
+                            .map((index) => DropdownMenuItem<int>(
+                                  value: index,
+                                  child: Text('Bomba #${index + 1}'),
+                                ))
+                            .toList(),
+                        onChanged: (newIndex) async {
+                          setState(() {
+                            selectedBombaIndex = newIndex!;
+                          });
+                          await _initializeBombaPuntos();
+                        },
+                      ),
+                    ],
+                  ),
+                  curvasIdentificador(
+                      ColoresApp.bombaColors[selectedBombaIndex],
+                      'Bomba #${selectedBombaIndex + 1}'),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  curvasIdentificador(Colors.pink, 'Recorte de Rodete'),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  buildResultRow(
+                    'Recorte',
+                    hallarResultado['resultado']
+                        .toString(),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  buildResultRow('Porcentaje',
+                      '${hallarResultado['porcentaje'].toString()}%'),
+                ],
+              ),
             ),
           )
         ],
@@ -141,7 +153,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
     );
   }
 
-  Widget buildResultRow() {
+  Widget buildResultRow(String text, String res) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey.shade300, borderRadius: BorderRadius.circular(15)),
@@ -151,7 +163,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
           CustomRectangle(
             height: 50,
             color: Colors.pink,
-            text: 'Alfa',
+            text: text,
             size: 15,
             width: 130,
           ),
@@ -160,8 +172,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
             height: 50,
             child: Center(
               child: Text(
-                hallarResultado['resultado']
-                    .toString(),
+                res,
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -229,11 +240,9 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
 
-    List<FlSpot> spotsVariador =
-        (hallarResultado['puntos']
-                as List<Map<String, double>>)
-            .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
-            .toList();
+    List<FlSpot> spotsVariador = (hallarResultado['puntos'] as List<Map<String, double>>)
+        .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
+        .toList();
 
     return [
       _buildLineBarData(spots, Colors.blue),

@@ -9,7 +9,7 @@ class ColoresApp {
     static const  List<Color> bombaColors = [
 
     Colors.green,
-    Colors.yellow,
+    Color(0xFF96AA22),
     Colors.purple,
     Colors.orange,
     Colors.teal,

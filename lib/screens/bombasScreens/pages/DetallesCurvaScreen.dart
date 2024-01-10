@@ -2,6 +2,7 @@ import 'package:calculator/controllers/bombaController.dart';
 import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/BombaSerie.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/NuevaCurva.dart';
+import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/RecorteRodete.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/ScreenDetalles.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:calculator/widgets/RectangleBombas.dart';
@@ -21,9 +22,6 @@ class DetallesCurvaScreen extends StatefulWidget {
 class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
   final BombaController bombaController = Get.find<BombaController>();
 
-  void generarVariador() {
-    bombaController.variadorDeFrecuencia(widget.bombaIndex);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +52,12 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
             ),
             SizedBox(height: 10),
             RectangleBombas(
-                color: Colors.blue.shade300, text: 'Bombas en Paralelo'),
+              color: Colors.blue.shade300,
+              text: 'Bombas en Paralelo',
+              onPressed: () {
+                bombaController.bombaParalelo(widget.bombaIndex);
+              },
+            ),
             SizedBox(height: 10),
             RectangleBombas(
               color: Colors.green.shade300,
@@ -71,7 +74,18 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
             ),
             SizedBox(height: 10),
             RectangleBombas(
-                color: Colors.purple.shade300, text: 'Corte de Rodete'),
+              color: Colors.purple.shade300,
+              text: 'Recorte de Rodete',
+              onPressed: (() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecorteRodete(
+                              title: 'Recorte de Rodete',
+                              indexBomba: widget.bombaIndex,
+                            )));
+              }),
+            ),
             SizedBox(height: 10),
             RectangleBombas(
               color: Colors.orange.shade300,
@@ -81,7 +95,7 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => NuevaCurva(
-                              title: 'Variador de frecuencia',
+                              title: 'Nueva Curva Resistente',
                               indexBomba: widget.bombaIndex,
                             )));
               }),

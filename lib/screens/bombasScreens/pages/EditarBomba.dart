@@ -51,7 +51,7 @@ class _EditarBombaState extends State<EditarBomba> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-          title: 'Editar bomba',
+          title: 'Editar bomba #${widget.index +1}',
           backgroundColor: ColoresApp.bombas,
           routeBack: () {
             Navigator.pop(context);
@@ -103,7 +103,7 @@ class _EditarBombaState extends State<EditarBomba> {
                   EditarCurva();
                   Navigator.pop(context);
                 },
-                child: Text('Editar bomba'),
+                child: Text('Editar Bomba'),
               ),
             ],
           ),

@@ -55,12 +55,17 @@ class _EditarCurvaState extends State<EditarCurva> {
           routeBack: () {
             Navigator.pop(context);
           }),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+               Image.asset(
+                'assets/bomba_Curva.png',
+                width: 200,
+                height: 200,
+              ),
               CustomInput(
                 color: Colors.blue,
                 text: 'A',
@@ -93,7 +98,7 @@ class _EditarCurvaState extends State<EditarCurva> {
                   EditarCurva();
                   Navigator.pop(context);
                 },
-                child: Text('Editar bomba'),
+                child: Text('Editar Curva'),
               ),
             ],
           ),
