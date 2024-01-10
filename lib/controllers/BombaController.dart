@@ -68,12 +68,20 @@ class BombaController extends GetxController {
     generarGrafico();
   }
 
+
   void eliminarBombas(int index) {
-    bombas.removeAt(index);
-    // Puedes volver a generar los puntos de todas las bombas aquí
-    generarPuntosBombas();
-    generarGrafico();
-  }
+  BombaModel bombaEliminada = bombas[index];
+  bombas.removeAt(index);
+  
+  // Eliminar los puntos de la bomba eliminada
+  puntosBomba.removeWhere((punto) => punto['bomba_id'] == bombaEliminada.id.toDouble());
+
+  //Volver a generar los puntos de todas las bombas restantes
+  generarPuntosBombas();
+
+  generarGrafico();
+}
+
 
   double calcularHR(double A, double B, double C, double caudal_metroCubico,
       int n, double alfa, double K, String tipo, String aumentarDisminuir, double lambda) {

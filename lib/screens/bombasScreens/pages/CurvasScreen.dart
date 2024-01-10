@@ -183,17 +183,17 @@ class _CurvasScreenState extends State<CurvasScreen> {
   }
 
   LineChart _buildGraph() {
-    double valorMaximoBombaA = bombaController.bombas
-        .map((bomba) => bomba.A)
-        .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
-    double valorMaximoA =
-        bombaController.curvaResistente.value.A > valorMaximoBombaA
-            ? bombaController.curvaResistente.value.A +30
-            : valorMaximoBombaA;
     List<FlSpot> spots = bombaController.puntosCurva
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
 
+    double maximoA =
+        spots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
+    if (bombaController.bombas.isNotEmpty) {
+      maximoA = bombaController.bombas
+          .map((bomba) => bomba.A)
+          .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
+    }
     List<LineChartBarData> existingLineBarsData = [
       LineChartBarData(
         spots: spots,
@@ -205,7 +205,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
       LineChartBarData(
         spots: [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
-          FlSpot(bombaController.curvaResistente.value.Q, valorMaximoA),
+          FlSpot(bombaController.curvaResistente.value.Q, maximoA),
         ],
         isCurved: false,
         color: Colors.red,

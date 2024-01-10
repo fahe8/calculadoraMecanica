@@ -27,7 +27,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
   int selectedBombaIndex = 0;
   late List<int> bombaIndices;
   late List<FlSpot> bombaPuntos = [];
-  late Map<String,dynamic> hallarResultado;
+  late Map<String, dynamic> hallarResultado;
   @override
   void initState() {
     super.initState();
@@ -35,12 +35,11 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
     bombaIndices =
         List.generate(bombaController.bombas.length, (index) => index);
     selectedBombaIndex = widget.indexBomba;
- hallarResultado = bombaController.formulasHallar(
+    hallarResultado = bombaController.formulasHallar(
       widget.indexBomba,
       TipoCurva.VARIADOR,
       'aumentar',
     );
-
 
     _initializeBombaPuntos();
   }
@@ -160,8 +159,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
             height: 50,
             child: Center(
               child: Text(
-                hallarResultado['resultado']
-                    .toString(),
+                hallarResultado['resultado'].toString(),
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -230,10 +228,17 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
         .toList();
 
     List<FlSpot> spotsVariador =
-        (hallarResultado['puntos']
-                as List<Map<String, double>>)
+        (hallarResultado['puntos'] as List<Map<String, double>>)
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
+
+    double maximoA =
+        spots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
+    if (bombaController.bombas.isNotEmpty) {
+      maximoA = bombaController.bombas
+          .map((bomba) => bomba.A)
+          .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
+    }
 
     return [
       _buildLineBarData(spots, Colors.blue),
@@ -243,7 +248,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
       _buildLineBarData(
         [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
-          FlSpot(bombaController.curvaResistente.value.Q, bombaController.curvaResistente.value.A + 20),
+          FlSpot(bombaController.curvaResistente.value.Q, maximoA),
         ],
         Colors.red,
       ),

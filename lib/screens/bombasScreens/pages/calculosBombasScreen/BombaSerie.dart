@@ -234,6 +234,13 @@ class _BombaSerieState extends State<BombaSerie> {
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
 
+ double maximoA =
+        spots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
+    if (bombaController.bombas.isNotEmpty) {
+      maximoA = bombaController.bombas
+          .map((bomba) => bomba.A)
+          .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
+    }
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),
@@ -243,7 +250,7 @@ class _BombaSerieState extends State<BombaSerie> {
         [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
           FlSpot(bombaController.curvaResistente.value.Q,
-              bombaController.curvaResistente.value.A + 20),
+              maximoA),
         ],
         Colors.red,
       ),
