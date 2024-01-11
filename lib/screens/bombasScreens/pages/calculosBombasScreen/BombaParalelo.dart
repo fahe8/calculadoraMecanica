@@ -118,7 +118,7 @@ class _BombaParaleloState extends State<BombaParalelo> {
                     height: 8,
                   ),
                   buildResultRow('Nuevo Q',
-                      '${hallarResultado['porcentaje'].toString()}%'),
+                      '${hallarResultado['nuevoCaudal'].toString()}'),
                 ],
               ),
             ),

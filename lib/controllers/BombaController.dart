@@ -65,26 +65,68 @@ class BombaController extends GetxController {
   void editarBomba(BombaModel nuevaBomba, int index) {
     bombas[index] = nuevaBomba;
     generarPuntosBomba(nuevaBomba);
-    generarGrafico();
   }
 
-
   void eliminarBombas(int index) {
-  BombaModel bombaEliminada = bombas[index];
-  bombas.removeAt(index);
-  
-  // Eliminar los puntos de la bomba eliminada
-  puntosBomba.removeWhere((punto) => punto['bomba_id'] == bombaEliminada.id.toDouble());
+    BombaModel bombaEliminada = bombas[index];
+    bombas.removeAt(index);
 
-  //Volver a generar los puntos de todas las bombas restantes
-  generarPuntosBombas();
+    // Eliminar los puntos de la bomba eliminada
+    puntosBomba.removeWhere(
+        (punto) => punto['bomba_id'] == bombaEliminada.id.toDouble());
+  }
 
-  generarGrafico();
-}
+  void generarPuntos(
+      List<Map<String, double>> listaPuntos,
+      double A,
+      double B,
+      double C,
+      double alfa,
+      String tipo,
+      int id,
+      int n,
+      double K,
+      String aumentarDisminuir,
+      double lambda,
+      nuevoCaudal) {
+    double intervalo = 6;
+    double caudal_litros;
+    tipo != TipoCurva.PARALELO
+        ? caudal_litros = curvaResistente.value.Q
+        : caudal_litros = nuevoCaudal*1000;
 
+    for (double q = 0; q <= caudal_litros + intervalo; q += intervalo) {
+      double caudal_metroCubico = q / 1000;
 
-  double calcularHR(double A, double B, double C, double caudal_metroCubico,
-      int n, double alfa, double K, String tipo, String aumentarDisminuir, double lambda) {
+      double hr = calcularHR(A, B, C, caudal_metroCubico, n, alfa, K, tipo,
+          aumentarDisminuir, lambda);
+
+      tipo != TipoCurva.BOMBA
+          ? listaPuntos.add({
+              'caudal_litros': q,
+              'caudal_cubico': caudal_metroCubico,
+              'h': hr,
+            })
+          : listaPuntos.add({
+              'caudal_litros': q,
+              'caudal_cubico': caudal_metroCubico,
+              'h': hr,
+              'bomba_id': id.toDouble(),
+            });
+    }
+  }
+
+  double calcularHR(
+      double A,
+      double B,
+      double C,
+      double caudal_metroCubico,
+      int n,
+      double alfa,
+      double K,
+      String tipo,
+      String aumentarDisminuir,
+      double lambda) {
     switch (tipo) {
       case TipoCurva.CURVA:
         return A + B * caudal_metroCubico * caudal_metroCubico;
@@ -107,7 +149,9 @@ class BombaController extends GetxController {
             (B * caudal_metroCubico / n) +
             (C * pow(caudal_metroCubico, 2) / pow(n, 2));
       case TipoCurva.RODETE:
-        return A* pow(lambda, 2) + B*caudal_metroCubico + (C*pow(caudal_metroCubico, 2))/pow(lambda, 2);
+        return A * pow(lambda, 2) +
+            B * caudal_metroCubico +
+            (C * pow(caudal_metroCubico, 2)) / pow(lambda, 2);
       case TipoCurva.NUEVACURVA:
         return (aumentarDisminuir == 'aumentar')
             ? A +
@@ -122,47 +166,12 @@ class BombaController extends GetxController {
     }
   }
 
-  void generarPuntos(
-      List<Map<String, double>> listaPuntos,
-      double A,
-      double B,
-      double C,
-      double alfa,
-      String tipo,
-      int id,
-      int n,
-      double K,
-      String aumentarDisminuir,
-      double lambda) {
-    double intervalo = 6;
-    double caudal_litros = curvaResistente.value.Q;
-    for (double q = 0; q <= caudal_litros + intervalo; q += intervalo) {
-      double caudal_metroCubico = q / 1000;
-
-      double hr = calcularHR(
-          A, B, C, caudal_metroCubico, n, alfa, K, tipo, aumentarDisminuir, lambda);
-
-      tipo != TipoCurva.BOMBA
-          ? listaPuntos.add({
-              'caudal_litros': q,
-              'caudal_cubico': caudal_metroCubico,
-              'h': hr,
-            })
-          : listaPuntos.add({
-              'caudal_litros': q,
-              'caudal_cubico': caudal_metroCubico,
-              'h': hr,
-              'bomba_id': id.toDouble(),
-            });
-    }
-  }
-
   void generarPuntosCurva() {
     double A = curvaResistente.value.A;
     double B = curvaResistente.value.B;
     double caudal_litros = curvaResistente.value.Q;
 
-    generarPuntos(puntosCurva, A, B, 0, 0, TipoCurva.CURVA, 0, 0, 0, '',0);
+    generarPuntos(puntosCurva, A, B, 0, 0, TipoCurva.CURVA, 0, 0, 0, '', 0,0);
   }
 
   void generarGrafico() {
@@ -183,7 +192,8 @@ class BombaController extends GetxController {
     double B = bomba.B;
     double C = bomba.C;
     double caudal_litros = curvaResistente.value.Q;
-    generarPuntos(puntosBomba, A, B, C, 0, TipoCurva.BOMBA, bomba.id, 0, 0, '',0);
+    generarPuntos(
+        puntosBomba, A, B, C, 0, TipoCurva.BOMBA, bomba.id, 0, 0, '', 0,0);
   }
 
   List<FlSpot> obtenerPuntosDeBomba(int index) {
@@ -195,7 +205,6 @@ class BombaController extends GetxController {
     return spotsBomba;
   }
 
-  
   Map<String, dynamic> formulasHallar(
       int index, String tipo, String aumentarDisminuir) {
     BombaModel bomba = bombas[index];
@@ -219,7 +228,7 @@ class BombaController extends GetxController {
         alfa = sqrt(inicio);
 
         generarPuntos(
-            puntosGrafico, A, B, C, alfa, TipoCurva.VARIADOR, 0, 0, 0, '',0);
+            puntosGrafico, A, B, C, alfa, TipoCurva.VARIADOR, 0, 0, 0, '', 0,0);
         Map<String, dynamic> result = {
           'puntos': puntosGrafico,
           'resultado': redondear(alfa),
@@ -233,17 +242,18 @@ class BombaController extends GetxController {
         double n = hr / resolverIzq;
 
         generarPuntos(
-            puntosGrafico, A, B, C, 0, TipoCurva.SERIE, 0, n.round(), 0, '',0);
+            puntosGrafico, A, B, C, 0, TipoCurva.SERIE, 0, n.round(), 0, '', 0,0);
 
         Map<String, dynamic> result = {
           'puntos': puntosGrafico,
           'resultado': redondear(n),
         };
         return result;
+
       case TipoCurva.PARALELO:
         puntosGrafico = <Map<String, double>>[];
         double n;
-        double nuevoQ;
+        double nuevoQ = 0;
         double nuevoB = B * caudal_metroCubico;
         double nuevoC = C * caudal_metroCubico * caudal_metroCubico;
         double nuevoA = (hr - A);
@@ -251,14 +261,20 @@ class BombaController extends GetxController {
         if (nuevoB != 0) {
           double cuadraticaResuelta = cuadratica(A, nuevoB, nuevoC);
           n = cuadraticaResuelta;
+        } else {
+          n = sqrt(nuevoC / nuevoA);
+
+          nuevoQ = sqrt((A - curvaA) / (curvaB - (C / pow(n.round(), 2))));
         }
-        n = sqrt(nuevoC / nuevoA);
-        nuevoQ = 0;
 
         Map<String, dynamic> result = {
           'puntos': puntosGrafico,
           'resultado': redondear(n),
+          'nuevoCaudal': redondear(nuevoQ),
         };
+        generarPuntos(puntosGrafico, A, B, C, 0, TipoCurva.PARALELO, 0,
+            n.round(), 0, '', 0, nuevoQ);
+
         return result;
 
       case TipoCurva.RODETE:
@@ -271,13 +287,14 @@ class BombaController extends GetxController {
         double lambda = sqrt(cuadraticaResuelta);
         double porcentaje = 100 - (lambda * 100);
         generarPuntos(
-            puntosGrafico, A, B, C, 0, TipoCurva.RODETE, 0, 0, 0, '',lambda);
+            puntosGrafico, A, B, C, 0, TipoCurva.RODETE, 0, 0, 0, '', lambda,0);
         Map<String, dynamic> result = {
           'puntos': puntosGrafico,
           'resultado': redondear(lambda),
           'porcentaje': redondear(porcentaje)
         };
         return result;
+
       case TipoCurva.NUEVACURVA:
         puntosGrafico = <Map<String, double>>[];
         double hb = A +
@@ -287,7 +304,7 @@ class BombaController extends GetxController {
         double K = (hb - hr) / (caudal_metroCubico * caudal_metroCubico);
 
         generarPuntos(puntosGrafico, curvaA, curvaB, 0, 0, TipoCurva.NUEVACURVA,
-            0, 0, K, aumentarDisminuir,0);
+            0, 0, K, aumentarDisminuir, 0,0);
         Map<String, dynamic> result = {
           'puntos': puntosGrafico,
           'resultado': redondear(K),
@@ -298,46 +315,6 @@ class BombaController extends GetxController {
         Map<String, dynamic> result = {};
         return result; // o cualquier valor predeterminado según tus necesidades
     }
-  }
-
-  
-
-  Map<String, dynamic> bombaParalelo(int index) {
-    BombaModel bomba = bombas[index];
-    double A = bomba.A;
-    double B = bomba.B;
-    double C = bomba.C;
-
-    double curvaA = curvaResistente.value.A;
-    double curvaB = curvaResistente.value.B;
-    double caudal_metroCubico = curvaResistente.value.Q / 1000.0;
-
-    double hr = curvaA + curvaB * caudal_metroCubico * caudal_metroCubico;
-
-    List<Map<String, double>> puntosGrafico = <Map<String, double>>[];
-
-    double nuevoB = B * caudal_metroCubico;
-    double nuevoC = C * caudal_metroCubico * caudal_metroCubico;
-    double nuevoA = (hr - A);
-
-    if (nuevoB != 0) {
-      double cuadraticaResuelta = cuadratica(A, nuevoB, nuevoC);
-    }
-    int nuevoN = 2;
-    print('A = $nuevoA' + ' B = $nuevoB ' + 'C = $nuevoC');
-    double n = sqrt(nuevoC / nuevoA);
-    double nuevoQ = sqrt(-A * nuevoN * nuevoN / C);
-    print('valor N $n');
-    print('valor nuevoQ $nuevoQ');
-
-
-    Map<String, dynamic> result = {
-      'puntos': puntosGrafico,
-      'resultado': redondear(0),
-      'porcentaje': redondear(0)
-    };
-
-    return result;
   }
 
   double cuadratica(double a, double b, double c) {

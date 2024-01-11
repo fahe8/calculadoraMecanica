@@ -93,7 +93,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  CustomRectangle(
+                 Obx(() =>  bombaController.curvaResistente.value.Q != 0? CustomRectangle(
                     width: 120,
                     height: 40,
                     color: Colors.grey.shade200,
@@ -105,7 +105,7 @@ class _CurvasScreenState extends State<CurvasScreen> {
                         MaterialPageRoute(builder: (context) => CrearBomba()),
                       );
                     },
-                  ),
+                  ) : Container())
                 ],
               ),
             ),

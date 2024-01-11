@@ -1,5 +1,6 @@
 import 'package:calculator/controllers/bombaController.dart';
 import 'package:calculator/controllers/utils/Colores.dart';
+import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/BombaParalelo.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/BombaSerie.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/NuevaCurva.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/RecorteRodete.dart';
@@ -53,9 +54,16 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
             SizedBox(height: 10),
             RectangleBombas(
               color: Colors.blue.shade300,
-              text: 'Bombas en Paralelo',
+              text: 'Bombas en paralelo',
               onPressed: () {
-                bombaController.bombaParalelo(widget.bombaIndex);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BombaParalelo(
+                              title: 'Bombas en paralelo',
+                              indexBomba: widget.bombaIndex,
+                            )));
+              
               },
             ),
             SizedBox(height: 10),
@@ -75,13 +83,13 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
             SizedBox(height: 10),
             RectangleBombas(
               color: Colors.purple.shade300,
-              text: 'Recorte de Rodete',
+              text: 'Recorte de rodete',
               onPressed: (() {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => RecorteRodete(
-                              title: 'Recorte de Rodete',
+                              title: 'Recorte de rodete',
                               indexBomba: widget.bombaIndex,
                             )));
               }),
@@ -89,13 +97,13 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
             SizedBox(height: 10),
             RectangleBombas(
               color: Colors.orange.shade300,
-              text: 'Nueva Curva Resistente',
+              text: 'Nueva curva resistente',
               onPressed: (() {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => NuevaCurva(
-                              title: 'Nueva Curva Resistente',
+                              title: 'Nueva curva resistente',
                               indexBomba: widget.bombaIndex,
                             )));
               }),

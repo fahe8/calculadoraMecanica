@@ -12,15 +12,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: routeBack,
-        ),
-        title: Text(title),
-        backgroundColor: backgroundColor,
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: routeBack,
       ),
+      title: Text(title),
+      backgroundColor: backgroundColor,
     );
   }
 

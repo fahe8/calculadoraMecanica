@@ -16,7 +16,8 @@ class Accesorios extends StatefulWidget {
 
 class _AccesoriosState extends State<Accesorios> {
   TextEditingController _controllerCoeficienteK = TextEditingController();
-  TextEditingController _controllerVelocidad = TextEditingController();
+  TextEditingController _controllerCaudal = TextEditingController();
+  TextEditingController _controllerDiametro = TextEditingController();
 
 
   // Obtén la instancia de CalculationsController
@@ -34,22 +35,29 @@ class _AccesoriosState extends State<Accesorios> {
 
 
     ControllerUtils.initializeAndListenController(
-      controller: _controllerVelocidad,
-      controllerValue: calculationsController.velocidad,
+      controller: _controllerCaudal,
+      controllerValue: calculationsController.caudal,
+      calculationsController: calculationsController,
+    );
+
+    ControllerUtils.initializeAndListenController(
+      controller: _controllerDiametro,
+      controllerValue: calculationsController.diametro,
       calculationsController: calculationsController,
     );
   }
 
   @override
   void dispose() {
-    // Importante: asegúrate de eliminar el listener al salir de la pantalla para evitar pérdida de memoria.
+  
     _controllerCoeficienteK.dispose();
-    _controllerVelocidad.dispose();
+    _controllerCaudal.dispose();
+    _controllerDiametro.dispose();
     super.dispose();
   }
 
   void calcularPerdidasDeAccesorios() {
-    // Llama al método calcularVelocidad en CalculationsController
+    
     calculationsController.calcularPerdidasAccesorios();
   }
 
@@ -59,10 +67,11 @@ class _AccesoriosState extends State<Accesorios> {
       title: 'Pérdidas: Accesorios',
       controllers: [
         _controllerCoeficienteK,
-        _controllerVelocidad,
+        _controllerCaudal,
+        _controllerDiametro
       ],
       values: calculationsController.perdidasAccesorios,
-      inputLabels: ['Coeficiente K', 'Velocidad'],
+      inputLabels: ['Coeficiente K', 'Caudal', 'Diametro'],
       calculateMethod: calcularPerdidasDeAccesorios,
       prevRoute: '/hidraulica/calculoshidraulicos/longitudtuberia',
     );

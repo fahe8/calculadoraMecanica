@@ -85,16 +85,17 @@ class CalculationsController extends GetxController {
 
   void calcularPerdidasAccesorios() {
     final coeficienteKActual = coeficienteK.value;
-    final velocidadActual = velocidad.value;
+    final diametroActual = diametro.value;
+    final caudalActual = caudal.value;
 
-    if (velocidadActual == null || coeficienteKActual == null) {
+    if (diametroActual == null || coeficienteKActual == null || caudalActual == null) {
       perdidasAccesorios.value = 0.0;
       return;
     }
 
     final gravedad = 9.81;
     final perdidasDeAccesorios = calcularPerdidasAccesorio(
-        coeficienteKActual, velocidadActual, gravedad);
+        coeficienteKActual, caudalActual, diametroActual, gravedad);
     perdidasAccesorios.value = redondear(perdidasDeAccesorios);
   }
 
@@ -121,8 +122,8 @@ class CalculationsController extends GetxController {
   }
 
   double calcularPerdidasAccesorio(
-      double coeficienteK, double velocidad, double gravedad) {
-    return coeficienteK * (pow(velocidad, 2) / 2 * gravedad);
+      double coeficienteK, double caudal, double diametro, double gravedad) {
+    return (8*coeficienteK*caudal*caudal)/(pi*pi*gravedad*pow(diametro, 4));
   }
 
   double redondear(double valor) {

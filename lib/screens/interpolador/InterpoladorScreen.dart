@@ -35,7 +35,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8),
           child: Column(
             children: [
               Container(
@@ -148,17 +148,20 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
         
         gridData: FlGridData(show: true),
         titlesData: const FlTitlesData(
-          rightTitles:  AxisTitles(
+          rightTitles: AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
-          topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        
-        ),
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: Colors.black),
+          topTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          leftTitles: AxisTitles(
+          
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 35,
+            ),
+          ),
+         
         ),
         minX: minX - 2,
         maxX: maxX + 2,
