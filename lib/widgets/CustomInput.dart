@@ -40,7 +40,7 @@ class CustomInput extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 10),
+          
               height: 40,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -62,7 +62,7 @@ class CustomInput extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               contentPadding:
-                  EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  EdgeInsets.symmetric(vertical: .0, horizontal: 16.0),
               suffixIcon: IconButton(
                 onPressed: () {
                   controller.clear();

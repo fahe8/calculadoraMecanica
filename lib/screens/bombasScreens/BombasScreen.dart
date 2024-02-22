@@ -1,5 +1,6 @@
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
+import 'package:calculator/widgets/lectorPdf.dart';
 import 'package:flutter/material.dart';
 
 class BombasScreen extends StatelessWidget {
@@ -39,14 +40,26 @@ class BombasScreen extends StatelessWidget {
                   height: 50,
                   color: Colors.blue,
                   text: 'Propiedades',
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LectorPdf(selectedPdfKey: 'propiedades',),
+                        )
+                      );},
                 ),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
                   color: Colors.blue,
                   text: 'Formulario',
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LectorPdf(selectedPdfKey: 'fBombas',),
+                        )
+                      );},
                 )
               ],
             ),

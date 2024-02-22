@@ -44,7 +44,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
               ),
               SizedBox(height: 16),
               Container(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(4),
                 decoration: BoxDecoration(
                     color: ColoresApp.greyShade,
                     borderRadius: BorderRadius.circular(15)),
@@ -244,7 +244,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
             controller: controller,
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
             ],
             decoration: InputDecoration(
               filled: true,

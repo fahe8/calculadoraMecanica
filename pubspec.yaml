@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   fl_chart: ^0.66.0
+  advance_pdf_viewer2: ^2.0.5+1
+ 
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
+    - assets/pdf/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

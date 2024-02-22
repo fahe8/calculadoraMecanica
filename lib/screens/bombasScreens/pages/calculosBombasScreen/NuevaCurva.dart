@@ -257,13 +257,7 @@ class _NuevaCurvaState extends State<NuevaCurva> {
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
         
- double maximoA =
-        spots.map((spot) => spot.y).reduce((max, y) => y > max ? y : max);
-    if (bombaController.bombas.isNotEmpty) {
-      maximoA = bombaController.bombas
-          .map((bomba) => bomba.A)
-          .reduce((maxA, currentA) => maxA > currentA ? maxA : currentA);
-    }
+ double maximoA = bombaController.puntoFuncionamiento;
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),

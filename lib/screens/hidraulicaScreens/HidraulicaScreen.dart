@@ -1,6 +1,7 @@
 import 'package:calculator/controllers/utils/Colores.dart';
 import 'package:calculator/widgets/CustomRectangle.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
+import 'package:calculator/widgets/lectorPdf.dart';
 import 'package:flutter/material.dart';
 
 class HidraulicaScreen extends StatefulWidget {
@@ -51,7 +52,13 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                 color: ColoresApp.hidraulica,
                 text: 'Propiedades',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/hidraulica/propiedades');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LectorPdf(selectedPdfKey: 'propiedades',),
+                        )
+                      );
                 },
               ),
               SizedBox(
@@ -63,7 +70,13 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                 color: ColoresApp.hidraulica,
                 text: 'Formulario',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/hidraulica/formulario');
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LectorPdf(selectedPdfKey: 'fHidraulica',),
+                        )
+                      );
                 },
               )
             ],

@@ -37,6 +37,7 @@ class BombaController extends GetxController {
   var bombas = <BombaModel>[].obs;
   List<Map<String, double>> puntosBomba = <Map<String, double>>[].obs;
 
+ double puntoFuncionamiento = 0.0.obs.value;
   var curvaResistente = CurvaModel(A: 0, B: 0, Q: 0).obs;
   List<Map<String, double>> puntosCurva = <Map<String, double>>[].obs;
   RxBool showGraph = false.obs;
@@ -45,15 +46,24 @@ class BombaController extends GetxController {
     if (A != 0 || B != 0 || Q != 0) {
       curvaResistente.value = CurvaModel(A: A, B: B, Q: Q);
       generarGrafico();
+      generarPuntoFuncionamiento(A,B,Q);
     } else {
       print(
           'Todos los valores de A, B y Q son cero. No se realizará ninguna acción.');
     }
   }
 
+  void generarPuntoFuncionamiento(double A, double B, double Q) {
+    double caudal_cubico = Q / 1000;
+
+    puntoFuncionamiento = (A + (B * caudal_cubico * caudal_cubico))  ;
+    print(puntoFuncionamiento);
+  }
+
   void editarCurva(CurvaModel curva) {
     curvaResistente.value = curva;
     generarGrafico();
+    generarPuntoFuncionamiento(curva.A,curva.B,curva.Q);
   }
 
   void agregarBomba(BombaModel bomba) {
