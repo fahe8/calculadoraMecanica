@@ -25,9 +25,9 @@ class _RecorteRodeteState extends State<RecorteRodete> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
-  late List<int> bombaIndices;
-  late List<FlSpot> bombaPuntos = [];
-  late Map<String, dynamic> hallarResultado;
+  List<int> bombaIndices = [];
+  List<FlSpot> bombaPuntos = [];
+  Map<String, dynamic> hallarResultado = {};
   @override
   void initState() {
     super.initState();
@@ -39,11 +39,10 @@ class _RecorteRodeteState extends State<RecorteRodete> {
     _initializeBombaPuntos();
   }
 
-  Future<void> _initializeBombaPuntos() async {
-    bombaPuntos =
-        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+  void _initializeBombaPuntos() {
+    bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
 
-    hallarResultado = await bombaController.formulasHallar(
+    hallarResultado = bombaController.formulasHallar(
       widget.indexBomba,
       TipoCurva.RODETE,
       '',
@@ -94,7 +93,7 @@ class _RecorteRodeteState extends State<RecorteRodete> {
                           setState(() {
                             selectedBombaIndex = newIndex!;
                           });
-                          await _initializeBombaPuntos();
+                          _initializeBombaPuntos();
                         },
                       ),
                     ],
@@ -244,7 +243,7 @@ class _RecorteRodeteState extends State<RecorteRodete> {
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
 
-  double maximoA = bombaController.puntoFuncionamiento;
+    double maximoA = bombaController.puntoFuncionamiento;
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),

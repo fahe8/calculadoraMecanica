@@ -25,9 +25,9 @@ class _BombaSerieState extends State<BombaSerie> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
-  late List<int> bombaIndices;
-  late List<FlSpot> bombaPuntos = [];
-  late Map<String, dynamic> hallarResultado;
+  List<int> bombaIndices = [];
+  List<FlSpot> bombaPuntos = [];
+  Map<String, dynamic> hallarResultado = {};
   @override
   void initState() {
     super.initState();
@@ -39,9 +39,8 @@ class _BombaSerieState extends State<BombaSerie> {
     _initializeBombaPuntos();
   }
 
-  Future<void> _initializeBombaPuntos() async {
-    bombaPuntos =
-        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+  void _initializeBombaPuntos() {
+    bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
     hallarResultado = bombaController.formulasHallar(
       widget.indexBomba,
       TipoCurva.RODETE,
@@ -92,7 +91,7 @@ class _BombaSerieState extends State<BombaSerie> {
                         setState(() {
                           selectedBombaIndex = newIndex!;
                         });
-                        await _initializeBombaPuntos();
+                        _initializeBombaPuntos();
                       },
                     ),
                   ],
@@ -159,8 +158,7 @@ class _BombaSerieState extends State<BombaSerie> {
             height: 50,
             child: Center(
               child: Text(
-                hallarResultado['resultado']
-                    .toString(),
+                hallarResultado['resultado'].toString(),
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -229,12 +227,11 @@ class _BombaSerieState extends State<BombaSerie> {
         .toList();
 
     List<FlSpot> spotsVariador =
-        (hallarResultado['puntos']
-                as List<Map<String, double>>)
+        (hallarResultado['puntos'] as List<Map<String, double>>)
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
 
-double maximoA = bombaController.puntoFuncionamiento;
+    double maximoA = bombaController.puntoFuncionamiento;
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),
@@ -243,8 +240,7 @@ double maximoA = bombaController.puntoFuncionamiento;
       _buildLineBarData(
         [
           FlSpot(bombaController.curvaResistente.value.Q, 0),
-          FlSpot(bombaController.curvaResistente.value.Q,
-              maximoA),
+          FlSpot(bombaController.curvaResistente.value.Q, maximoA),
         ],
         Colors.red,
       ),

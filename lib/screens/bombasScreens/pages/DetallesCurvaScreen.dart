@@ -4,7 +4,7 @@ import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/Bomb
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/BombaSerie.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/NuevaCurva.dart';
 import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/RecorteRodete.dart';
-import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/ScreenDetalles.dart';
+import 'package:calculator/screens/bombasScreens/pages/calculosBombasScreen/Variador.dart';
 import 'package:calculator/widgets/MyAppBar.dart';
 import 'package:calculator/widgets/RectangleBombas.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -74,7 +74,7 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ScreenDetalles(
+                        builder: (context) => Variador(
                               title: 'Variador de frecuencia',
                               indexBomba: widget.bombaIndex,
                             )));

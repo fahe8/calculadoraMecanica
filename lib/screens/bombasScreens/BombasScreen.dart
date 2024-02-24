@@ -57,7 +57,7 @@ class BombasScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              LectorPdf(selectedPdfKey: 'fBombas',),
+                              LectorPdf(selectedPdfKey: 'Bombas',),
                         )
                       );},
                 )

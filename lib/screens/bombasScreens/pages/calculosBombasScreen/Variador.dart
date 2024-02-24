@@ -7,27 +7,27 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ScreenDetalles extends StatefulWidget {
+class Variador extends StatefulWidget {
   final String title;
   final int indexBomba;
 
-  const ScreenDetalles({
+  const Variador({
     Key? key,
     required this.title,
     required this.indexBomba,
   }) : super(key: key);
 
   @override
-  _ScreenDetallesState createState() => _ScreenDetallesState();
+  _VariadorState createState() => _VariadorState();
 }
 
-class _ScreenDetallesState extends State<ScreenDetalles> {
+class _VariadorState extends State<Variador> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
-  late List<int> bombaIndices;
-  late List<FlSpot> bombaPuntos = [];
-  late Map<String, dynamic> hallarResultado;
+  List<int> bombaIndices = [];
+  List<FlSpot> bombaPuntos = [];
+  Map<String, dynamic> hallarResultado = {};
   @override
   void initState() {
     super.initState();
@@ -44,9 +44,8 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
     _initializeBombaPuntos();
   }
 
-  Future<void> _initializeBombaPuntos() async {
-    bombaPuntos =
-        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+  void _initializeBombaPuntos() {
+    bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
     setState(
         () {}); // Esto fuerza a redibujar el widget con los datos actualizados
   }
@@ -92,7 +91,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
                         setState(() {
                           selectedBombaIndex = newIndex!;
                         });
-                        await _initializeBombaPuntos();
+                        _initializeBombaPuntos();
                       },
                     ),
                   ],
@@ -232,7 +231,7 @@ class _ScreenDetallesState extends State<ScreenDetalles> {
             .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
             .toList();
 
-   double maximoA = bombaController.puntoFuncionamiento;
+    double maximoA = bombaController.puntoFuncionamiento;
 
     return [
       _buildLineBarData(spots, Colors.blue),

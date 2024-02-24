@@ -25,9 +25,9 @@ class _BombaParaleloState extends State<BombaParalelo> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
-  late List<int> bombaIndices;
-  late List<FlSpot> bombaPuntos = [];
-  late Map<String, dynamic> hallarResultado;
+  List<int> bombaIndices = [];
+  List<FlSpot> bombaPuntos = [];
+  Map<String, dynamic> hallarResultado = {};
   @override
   void initState() {
     super.initState();
@@ -39,11 +39,10 @@ class _BombaParaleloState extends State<BombaParalelo> {
     _initializeBombaPuntos();
   }
 
-  Future<void> _initializeBombaPuntos() async {
-    bombaPuntos =
-        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+  void _initializeBombaPuntos() async {
+    bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
 
-    hallarResultado = await bombaController.formulasHallar(
+    hallarResultado = bombaController.formulasHallar(
       widget.indexBomba,
       TipoCurva.PARALELO,
       '',
@@ -94,7 +93,7 @@ class _BombaParaleloState extends State<BombaParalelo> {
                           setState(() {
                             selectedBombaIndex = newIndex!;
                           });
-                          await _initializeBombaPuntos();
+                          _initializeBombaPuntos();
                         },
                       ),
                     ],
@@ -111,8 +110,7 @@ class _BombaParaleloState extends State<BombaParalelo> {
                   ),
                   buildResultRow(
                     'n',
-                    hallarResultado['resultado']
-                        .toString(),
+                    hallarResultado['resultado'].toString(),
                   ),
                   SizedBox(
                     height: 8,
@@ -240,11 +238,12 @@ class _BombaParaleloState extends State<BombaParalelo> {
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
 
-    List<FlSpot> spotsVariador = (hallarResultado['puntos'] as List<Map<String, double>>)
-        .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
-        .toList();
+    List<FlSpot> spotsVariador =
+        (hallarResultado['puntos'] as List<Map<String, double>>)
+            .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
+            .toList();
 
- double maximoA = bombaController.puntoFuncionamiento;
+    double maximoA = bombaController.puntoFuncionamiento;
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),

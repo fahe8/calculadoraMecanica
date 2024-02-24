@@ -74,7 +74,7 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              LectorPdf(selectedPdfKey: 'fHidraulica',),
+                              LectorPdf(selectedPdfKey: 'Hidraulica',),
                         )
                       );
                 },

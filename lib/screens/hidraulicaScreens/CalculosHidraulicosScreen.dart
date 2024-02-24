@@ -25,7 +25,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
           ),
           Expanded(
               child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Column(
               children: [
                 CustomRectangle(

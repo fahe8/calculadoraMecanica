@@ -337,13 +337,12 @@ class BombaController extends GetxController {
     } else if (discriminant == 0) {
       // Una solución real
       double root = -b / (2 * a);
-      print("La solución única es: $root");
       return root;
     } else {
       // Dos soluciones reales
       double root1 = (-b + sqrt(discriminant)) / (2 * a);
       double root2 = (-b - sqrt(discriminant)) / (2 * a);
-      print("Las soluciones son: $root1 y $root2");
+
       // Retornar una lista con las dos soluciones
       return root1;
     }

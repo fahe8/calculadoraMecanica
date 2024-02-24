@@ -25,10 +25,10 @@ class _NuevaCurvaState extends State<NuevaCurva> {
   final BombaController bombaController = Get.find<BombaController>();
 
   int selectedBombaIndex = 0;
-  late List<int> bombaIndices;
-  late List<FlSpot> bombaPuntos = [];
+  List<int> bombaIndices = [];
+  List<FlSpot> bombaPuntos = [];
   String aumentarDisminuir = 'aumentar';
-  late Map<String, dynamic> hallarResultado;
+  Map<String, dynamic> hallarResultado = {};
   @override
   void initState() {
     super.initState();
@@ -40,14 +40,17 @@ class _NuevaCurvaState extends State<NuevaCurva> {
     _initializeBombaPuntos();
   }
 
-  Future<void> _initializeBombaPuntos() async {
-    bombaPuntos =
-        await bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
-         hallarResultado = bombaController.formulasHallar(
+  void _calcularResultado() {
+    hallarResultado = bombaController.formulasHallar(
       widget.indexBomba,
       TipoCurva.NUEVACURVA,
       aumentarDisminuir,
     );
+  }
+
+  void _initializeBombaPuntos() {
+    bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
+    _calcularResultado();
     setState(
         () {}); // Esto fuerza a redibujar el widget con los datos actualizados
   }
@@ -92,8 +95,8 @@ class _NuevaCurvaState extends State<NuevaCurva> {
                       onChanged: (newIndex) async {
                         setState(() {
                           selectedBombaIndex = newIndex!;
+                          _initializeBombaPuntos();
                         });
-                        await _initializeBombaPuntos();
                       },
                     ),
                   ],
@@ -114,6 +117,7 @@ class _NuevaCurvaState extends State<NuevaCurva> {
                       onPressed: () {
                         setState(() {
                           aumentarDisminuir = 'aumentar';
+                          _calcularResultado();
                         });
                       },
                       child: Text('Aumentar'),
@@ -123,6 +127,7 @@ class _NuevaCurvaState extends State<NuevaCurva> {
                       onPressed: () {
                         setState(() {
                           aumentarDisminuir = 'disminuir';
+                          _calcularResultado();
                         });
                       },
                       child: Text('Disminuir'),
@@ -178,17 +183,15 @@ class _NuevaCurvaState extends State<NuevaCurva> {
             width: 130,
           ),
           Expanded(
-                child: Container(
-              height: 50,
-              child: Center(
-                child: Text(
-                  hallarResultado['resultado']
-                      .toString(),
-                  style: TextStyle(fontSize: 16),
-                ),
+              child: Container(
+            height: 50,
+            child: Center(
+              child: Text(
+                hallarResultado['resultado'].toString(),
+                style: TextStyle(fontSize: 16),
               ),
-            )),
-          
+            ),
+          )),
         ],
       ),
     );
@@ -252,12 +255,12 @@ class _NuevaCurvaState extends State<NuevaCurva> {
         .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
         .toList();
 
-    List<FlSpot> spotsVariador = (hallarResultado['puntos']
-            as List<Map<String, double>>)
-        .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
-        .toList();
-        
- double maximoA = bombaController.puntoFuncionamiento;
+    List<FlSpot> spotsVariador =
+        (hallarResultado['puntos'] as List<Map<String, double>>)
+            .map((punto) => FlSpot(punto['caudal_litros']!, punto['h']!))
+            .toList();
+
+    double maximoA = bombaController.puntoFuncionamiento;
     return [
       _buildLineBarData(spots, Colors.blue),
       _buildLineBarData(spotsVariador, Colors.pink),
