@@ -273,7 +273,10 @@ class BombaController extends GetxController {
           n = cuadraticaResuelta;
         } else {
           n = sqrt(nuevoC / nuevoA);
-
+          if(n.isInfinite || n.isNaN) {
+            n = 0;
+            
+          }
           nuevoQ = sqrt((A - curvaA) / (curvaB - (C / pow(n.round(), 2))));
         }
 

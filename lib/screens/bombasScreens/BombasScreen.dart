@@ -13,12 +13,12 @@ class BombasScreen extends StatelessWidget {
           title: 'Bomba',
           backgroundColor: Colors.blue,
           routeBack: () {
-           Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(context, '/home');
           }),
       body: Container(
         child: Column(children: [
           Image.asset(
-            'assets/bomba.png',
+            'assets/bomba1.png',
             width: 200,
             height: 200,
           ),
@@ -33,33 +33,39 @@ class BombasScreen extends StatelessWidget {
                   height: 50,
                   color: Colors.blue,
                   text: 'Selección de Bombas',
-                  onPressed: () {Navigator.pushNamed(context, '/bombas/seleccionBombas');},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/bombas/seleccionBombas');
+                  },
                 ),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
                   color: Colors.blue,
                   text: 'Propiedades',
-                  onPressed: () { Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              LectorPdf(selectedPdfKey: 'propiedades',),
-                        )
-                      );},
+                          builder: (context) => LectorPdf(
+                            selectedPdfKey: 'propiedades',
+                          ),
+                        ));
+                  },
                 ),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
                   color: Colors.blue,
                   text: 'Formulario',
-                  onPressed: () { Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              LectorPdf(selectedPdfKey: 'Bombas',),
-                        )
-                      );},
+                          builder: (context) => LectorPdf(
+                            selectedPdfKey: 'Bombas',
+                          ),
+                        ));
+                  },
                 )
               ],
             ),

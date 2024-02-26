@@ -39,7 +39,7 @@ class _BombaParaleloState extends State<BombaParalelo> {
     _initializeBombaPuntos();
   }
 
-  void _initializeBombaPuntos() async {
+  void _initializeBombaPuntos()  {
     bombaPuntos = bombaController.obtenerPuntosDeBomba(selectedBombaIndex);
 
     hallarResultado = bombaController.formulasHallar(
@@ -47,12 +47,36 @@ class _BombaParaleloState extends State<BombaParalelo> {
       TipoCurva.PARALELO,
       '',
     );
+
     setState(
         () {}); // Esto fuerza a redibujar el widget con los datos actualizados
   }
 
   @override
   Widget build(BuildContext context) {
+      // Verificar si el resultado es 0.0
+  if (hallarResultado['resultado'].toString() == '0.0') {
+    // Mostrar un AlertDialog
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Resultado de N es imposible'),
+            content: Text('El valor de N es infinito o NaN'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cerrar'),
+              ),
+            ],
+          );
+        },
+      );
+    });
+  }
     return Scaffold(
       appBar: MyAppBar(
         backgroundColor: ColoresApp.bombas,

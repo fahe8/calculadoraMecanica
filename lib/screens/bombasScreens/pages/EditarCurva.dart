@@ -62,7 +62,7 @@ class _EditarCurvaState extends State<EditarCurva> {
             mainAxisSize: MainAxisSize.min,
             children: [
                Image.asset(
-                'assets/bomba_Curva.png',
+                'assets/bomba_curva.png',
                 width: 200,
                 height: 200,
               ),

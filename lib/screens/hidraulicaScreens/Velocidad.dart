@@ -64,7 +64,7 @@ class _VelocidadState extends State<Velocidad> {
       values: calculationsController.velocidad,
       inputLabels: ['Caudal', 'Diámetro'],
       calculateMethod: calcularVelocidad,
-      nextRoute: '/hidraulica/calculoshidraulicos/reynolds',
+      nextRoute: '/hidraulica/calculoshidraulicos/reynolds', image: '',
     );
   }
 }

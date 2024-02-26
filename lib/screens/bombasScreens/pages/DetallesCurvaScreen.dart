@@ -36,8 +36,14 @@ class _DetallesCurvaScreenState extends State<DetallesCurvaScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+       
           children: [
+             Image.asset(
+                'assets/bomba2.png',
+                width: 200,
+                height: 200,
+              ),
+              SizedBox(height: 40,),
             RectangleBombas(
               color: Colors.red.shade300,
               text: 'Bombas en serie',

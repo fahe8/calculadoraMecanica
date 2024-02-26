@@ -16,6 +16,7 @@ class HydraulicCalculationScreen extends StatelessWidget {
   final VoidCallback calculateMethod;
   final String? nextRoute;
   final String? prevRoute;
+  final String image;
 
   const HydraulicCalculationScreen({
     Key? key,
@@ -26,6 +27,7 @@ class HydraulicCalculationScreen extends StatelessWidget {
     required this.calculateMethod,
     this.nextRoute,
     this.prevRoute,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,14 @@ class HydraulicCalculationScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              Image.asset(
+               image,
+                width: 160,
+                height: 160,
+              ),
+              SizedBox(
+                height: 40,
+              ),
               for (int i = 0; i < controllers.length; i++)
                 Column(
                   children: [
@@ -52,9 +62,7 @@ class HydraulicCalculationScreen extends StatelessWidget {
                       size: 15,
                       controller: controllers[i],
                     ),
-                    SizedBox(
-                        height:
-                            15), // Espacio de 20 después de cada CustomInput
+                    SizedBox(height: 15),
                   ],
                 ),
               buildResultRow(),
@@ -65,7 +73,8 @@ class HydraulicCalculationScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (prevRoute != null) buildPrevButton(context),
-                  if (prevRoute != null && nextRoute != null)SizedBox(width: 20),
+                  if (prevRoute != null && nextRoute != null)
+                    SizedBox(width: 20),
                   if (nextRoute != null) buildNextButton(context),
                 ],
               )
@@ -121,7 +130,8 @@ class HydraulicCalculationScreen extends StatelessWidget {
 
   Widget buildNextButton(BuildContext context) {
     return ElevatedButton(
-      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(ColoresApp.hidraulica)),
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(ColoresApp.hidraulica)),
       onPressed: () {
         Navigator.pushNamed(context, nextRoute!);
       },

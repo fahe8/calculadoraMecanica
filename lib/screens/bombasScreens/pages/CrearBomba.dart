@@ -38,7 +38,7 @@ class CrearBomba extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                'assets/bomba.png',
+                'assets/bomba4.png',
                 width: 200,
                 height: 200,
               ),

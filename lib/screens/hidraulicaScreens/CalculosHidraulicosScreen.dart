@@ -19,7 +19,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
 
         child: Column(children: [
           Image.asset(
-            'assets/hidraulica.png',
+            'assets/hidraulic.png',
             width: 200,
             height: 200,
           ),
@@ -27,6 +27,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomRectangle(
                   width: double.infinity,
@@ -38,9 +39,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         context, '/hidraulica/calculoshidraulicos/velocidad');
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -51,9 +50,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         context, '/hidraulica/calculoshidraulicos/reynolds');
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -64,9 +61,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         '/hidraulica/calculoshidraulicos/factorfriccion');
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -77,9 +72,7 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         '/hidraulica/calculoshidraulicos/longitudtuberia');
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+               
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
