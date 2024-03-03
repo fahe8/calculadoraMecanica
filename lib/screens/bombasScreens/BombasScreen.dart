@@ -19,14 +19,15 @@ class BombasScreen extends StatelessWidget {
         child: Column(children: [
           Image.asset(
             'assets/bomba1.png',
-            width: 200,
-            height: 200,
+            width: 300,
+            height: 300,
           ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomRectangle(
                   width: double.infinity,
@@ -37,6 +38,7 @@ class BombasScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/bombas/seleccionBombas');
                   },
                 ),
+                SizedBox(height: 20,),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -52,6 +54,7 @@ class BombasScreen extends StatelessWidget {
                         ));
                   },
                 ),
+                SizedBox(height: 20,),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,

@@ -16,7 +16,6 @@ class CalculosHidraulicosScreen extends StatelessWidget {
             Navigator.pushNamed(context, '/hidraulica');
           }),
       body: Container(
-
         child: Column(children: [
           Image.asset(
             'assets/hidraulic.png',
@@ -39,7 +38,6 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         context, '/hidraulica/calculoshidraulicos/velocidad');
                   },
                 ),
-              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -50,7 +48,6 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         context, '/hidraulica/calculoshidraulicos/reynolds');
                   },
                 ),
-              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -61,7 +58,6 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         '/hidraulica/calculoshidraulicos/factorfriccion');
                   },
                 ),
-              
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,
@@ -72,7 +68,6 @@ class CalculosHidraulicosScreen extends StatelessWidget {
                         '/hidraulica/calculoshidraulicos/longitudtuberia');
                   },
                 ),
-               
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,

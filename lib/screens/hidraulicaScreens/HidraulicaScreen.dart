@@ -34,7 +34,7 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomRectangle(
                 width: double.infinity,
@@ -46,6 +46,7 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                       context, '/hidraulica/calculoshidraulicos');
                 },
               ),
+               SizedBox(height: 20,),
               CustomRectangle(
                 width: double.infinity,
                 height: 50,
@@ -61,6 +62,7 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                       ));
                 },
               ),
+               SizedBox(height: 20,),
               CustomRectangle(
                 width: double.infinity,
                 height: 50,
