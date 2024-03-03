@@ -74,7 +74,7 @@ class _NumeroReynoldsState extends State<NumeroReynolds> {
       inputLabels: ['Velocidad', 'Diámetro', 'V. Cinemática'],
       calculateMethod: calcularNumerodeReynolds,
       nextRoute: '/hidraulica/calculoshidraulicos/factorfriccion',
-      prevRoute: '/hidraulica/calculoshidraulicos/velocidad', image: '',
+      prevRoute: '/hidraulica/calculoshidraulicos/velocidad', image: 'assets/reynold.png',
      
     );
   }

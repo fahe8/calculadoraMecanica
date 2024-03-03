@@ -73,7 +73,7 @@ class _FactorFriccionState extends State<FactorFriccion> {
       inputLabels: ['Rugosidad', 'Diámetro', 'Núm. Reynolds'],
       calculateMethod: calcularFactorDeFriccion,
       nextRoute: '/hidraulica/calculoshidraulicos/longitudtuberia',
-      prevRoute: '/hidraulica/calculoshidraulicos/reynolds', image: '',
+      prevRoute: '/hidraulica/calculoshidraulicos/reynolds', image: 'assets/friccion.png',
     );
   }
 }

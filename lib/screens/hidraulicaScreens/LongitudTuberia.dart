@@ -86,7 +86,7 @@ class _LongitudTuberiaState extends State<LongitudTuberia> {
       ],
       calculateMethod: calcularPerdidasDeLongitudTuberia,
       nextRoute: '/hidraulica/calculoshidraulicos/accesorios',
-      prevRoute: '/hidraulica/calculoshidraulicos/factorfriccion', image: '',
+      prevRoute: '/hidraulica/calculoshidraulicos/factorfriccion', image: 'assets/tuberia.png',
     );
   }
 }

@@ -73,7 +73,7 @@ class _AccesoriosState extends State<Accesorios> {
       values: calculationsController.perdidasAccesorios,
       inputLabels: ['Coeficiente K', 'Caudal', 'Diametro'],
       calculateMethod: calcularPerdidasDeAccesorios,
-      prevRoute: '/hidraulica/calculoshidraulicos/longitudtuberia', image: '',
+      prevRoute: '/hidraulica/calculoshidraulicos/longitudtuberia', image: 'assets/accesorios.png',
     );
   }
 }

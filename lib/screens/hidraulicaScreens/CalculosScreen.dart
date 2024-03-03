@@ -47,8 +47,9 @@ class HydraulicCalculationScreen extends StatelessWidget {
             children: [
               Image.asset(
                image,
-                width: 160,
+                width: 290,
                 height: 160,
+                fit: BoxFit.contain,
               ),
               SizedBox(
                 height: 40,
