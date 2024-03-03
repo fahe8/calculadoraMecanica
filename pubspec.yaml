@@ -38,7 +38,7 @@ dependencies:
   get: ^4.6.5
   fl_chart: ^0.66.0
   pdfx: ^2.6.0
-  url_launcher: ^6.0.6
+  url_launcher: ^6.1.6
  
 
 dev_dependencies:

@@ -50,7 +50,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 child: Column(children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                   
                     children: [
                       rectanguloCoordenada('X0', _controllerX0),
                       SizedBox(
@@ -63,7 +63,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                     height: 10,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                   
                     children: [
                       rectanguloCoordenada('X', _controllerX),
                       SizedBox(
@@ -76,7 +76,7 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
                     height: 10,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    
                     children: [
                       rectanguloCoordenada('X1', _controllerX1),
                       SizedBox(
@@ -226,46 +226,49 @@ class _InterpoladorScreenState extends State<InterpoladorScreen> {
   }
 
   Widget rectanguloCoordenada(String coord, TextEditingController controller) {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.purple,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          height: 40,
-          width: 40,
-          child: Center(child: Text(coord)),
-        ),
-        Container(
-          width: 130,
-          child: TextField(
-            enabled: controller == _controllerY ? false : true,
-            controller: controller,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
-            ],
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  controller.clear();
-                },
-                icon: Icon(Icons.clear),
-              ),
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.455,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.purple,
+              borderRadius: BorderRadius.circular(10),
             ),
-            textAlign: TextAlign.start,
+            height: 40,
+            width: 40,
+            child: Center(child: Text(coord)),
           ),
-        ),
-      ],
+          Expanded(
+            
+            child: TextField(
+              enabled: controller == _controllerY ? false : true,
+              controller: controller,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d*')),
+              ],
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    controller.clear();
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
