@@ -19,16 +19,15 @@ class BombasScreen extends StatelessWidget {
         child: Column(children: [
           Image.asset(
             'assets/bomba1.png',
-            width: 300,
-            height: 300,
+            width: 200,
+            height: 200,
           ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Column(
-              
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 20,),
                 CustomRectangle(
                   width: double.infinity,
                   height: 50,

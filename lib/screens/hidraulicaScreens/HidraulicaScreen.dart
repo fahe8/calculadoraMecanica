@@ -23,8 +23,8 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
           }),
       body: Column(children: [
         SizedBox(
-                height: 20,
-              ),
+          height: 20,
+        ),
         Image.asset(
           'assets/hidraulic.png',
           width: 200,
@@ -34,8 +34,8 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 20,),
               CustomRectangle(
                 width: double.infinity,
                 height: 50,
@@ -46,7 +46,9 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                       context, '/hidraulica/calculoshidraulicos');
                 },
               ),
-               SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               CustomRectangle(
                 width: double.infinity,
                 height: 50,
@@ -62,7 +64,9 @@ class _HidraulicaScreenState extends State<HidraulicaScreen> {
                       ));
                 },
               ),
-               SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               CustomRectangle(
                 width: double.infinity,
                 height: 50,
